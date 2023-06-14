@@ -1,0 +1,23 @@
+Added Component: Designator=P8(HDR1X6)
+Add component (AddParameter): Name = "LatestRevisionDate"; Value = "17-Jul-2002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LatestRevisionNote"; Value = "Re-released for DXP Platform."; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Publisher"; Value = "Altium Limited"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetArduino Mega_37 Pin=Arduino Mega-37
+Added Pin To Net: NetName=NetArduino Mega_37 Pin=P8-1
+Added Net: Name=NetArduino Mega_37
+Added Pin To Net: NetName=NetArduino Mega_39 Pin=Arduino Mega-39
+Added Pin To Net: NetName=NetArduino Mega_39 Pin=P8-2
+Added Net: Name=NetArduino Mega_39
+Added Pin To Net: NetName=NetArduino Mega_41 Pin=Arduino Mega-41
+Added Pin To Net: NetName=NetArduino Mega_41 Pin=P8-3
+Added Net: Name=NetArduino Mega_41
+Added Pin To Net: NetName=NetArduino Mega_43 Pin=Arduino Mega-43
+Added Pin To Net: NetName=NetArduino Mega_43 Pin=P8-4
+Added Net: Name=NetArduino Mega_43
+Added Pin To Net: NetName=NetArduino Mega_45 Pin=Arduino Mega-45
+Added Pin To Net: NetName=NetArduino Mega_45 Pin=P8-5
+Added Net: Name=NetArduino Mega_45
+Added Pin To Net: NetName=NetArduino Mega_47 Pin=Arduino Mega-47
+Added Pin To Net: NetName=NetArduino Mega_47 Pin=P8-6
+Added Net: Name=NetArduino Mega_47
+Added Member To Class: ClassName=Scoreboard Member=Component P8 Header 6

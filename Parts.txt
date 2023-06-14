@@ -1,0 +1,3 @@
+Use 3 LR44 coin batteries
+	-4.5V
+	-Will need to make custom case with spring and contacts

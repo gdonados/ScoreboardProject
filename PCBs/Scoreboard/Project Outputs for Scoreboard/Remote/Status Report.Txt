@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : Project [Scoreboard.PrjPcb]
+   Generated File[Remote-RoundHoles.TXT]
+   Generated File[Remote-SlotHoles.TXT]
+   Generated File[Remote.LDP]
+   Generated File[Remote.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 4:28:44 PM On 5/16/2023

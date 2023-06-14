@@ -1,0 +1,20 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: Remote.PcbDoc   5/16/2023  4:28:44 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : Remote-RoundHoles.TXT
+ASCII SlotHoles File : Remote-SlotHoles.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      28mil (0.711mm)                                           Round             7         PTH        0.00inch (0.00mm)
+T2      35mil (0.9mm)                                             Round             19        PTH        0.00inch (0.00mm)
+T3      40mil (1.016mm)                                           Slot              2         PTH        0.00inch (0.00mm)
+T4      44mil (1.11mm)                                            Round             30        PTH        0.00inch (0.00mm)
+T5      65mil (1.65mm)                                            Round             4         PTH        0.00inch (0.00mm)
+T6      87mil (2.21mm)                                            Round             3         PTH        0.00inch (0.00mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              65
+
+Total Processing Time (hh:mm:ss) : 00:00:00

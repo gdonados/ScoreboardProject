@@ -1,0 +1,633 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html">
+<style type="text/css">
+		h1, h2, h3, h4, h5, h6 {
+			font-family : segoe ui;
+			color : black;
+			background-color : #EDE7D9;
+			padding: 0.3em;
+		}
+
+		h1 {
+			font-size: 1.2em;
+		}		
+
+		h2 {
+			font-size: 1.2em;
+		}
+
+		body {
+			font-family : segoe ui;
+		}
+
+		td, th {
+			padding: 0.5em;
+			text-align : left;
+			width: 10em;
+		}
+		th {
+			background-color : #EEEEEE;
+
+		}
+		th.column1, td.column1 {
+			text-align: left;
+			width : auto;
+		}
+		table {
+			width : 100%;
+			font-size: 0.9em;
+		}
+
+		.DRC_summary_header {
+			padding-bottom : 0.1em;
+			border : 0px solid black;
+			width: 100%;
+			align: left;
+		}
+
+		.DRC_summary_header_col1,
+		.DRC_summary_header_col2, 
+		.DRC_summary_header_col3 {
+			color : black;
+			font-size:100%;
+			padding : 0em;
+			padding-top : 0.2em;
+			padding-bottom 0.2em;
+			border : 0px solid black;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.DRC_summary_header_col1 {
+			font-weight: bold;
+			width: 8em;
+		}
+
+		.DRC_summary_header_col2 {
+			width: 0.1em;
+		
+		}
+
+		.DRC_summary_header_col3 {
+			width : auto;
+		}
+
+		.header_holder {
+		    Width = 100%;
+		    border = 0px solid green;
+		    padding = 0;
+		}
+
+
+		.front_matter, .front_matter_column1, .front_matter_column2, .front_matter_column3
+		{
+			left : 0;
+			top : 0;
+			padding: 0em;
+			padding-top : 0.1em;
+			border : 0px solid black;
+			width : 100%;
+			vertical-align: top;
+			text-align: left;
+		}
+
+		.front_matter_column1 {
+			width : 8em;
+			font-weight: bold;
+		}
+
+		.front_matter_column2 {
+			width: 0.1em;
+		}
+
+		.front_matter_column3 {
+			width : auto;
+		}
+
+		.total_column1, .total_column {
+			font-weight : bold;
+		}
+		.total_column1 {
+			text-align : left;
+		}
+		.warning, .error {
+			color : red;
+			font-weight : bold;
+		}
+		tr.onmouseout_odd {
+			background-color : #white;
+		}
+		tr.onmouseout_even { 
+			background-color : #FAFAFA;
+		}
+		tr.onmouseover_odd, tr.onmouseover_even { 
+			background-color : #EEEEEE;
+		} 
+		a:link, a:visited, .q a:link,.q a:active,.q {
+			color: #21489e; 
+		}
+		a:link.callback, a:visited.callback { 
+			color: #21489e;
+		}
+		a:link.customize, a:visited.customize {
+			color: #C0C0C0;
+			position: absolute; 
+			right: 10px;
+		}	
+		p.contents_level1 {
+			font-weight : bold;
+			font-size : 110%;
+			margin : 0.5em;
+		}
+		p.contents_level2 {
+			position : relative;
+			left : 20px;
+			margin : 0.5em;
+		}
+	</style><script type="text/javascript">
+		function coordToMils(coord) {
+			var number = coord / 10000;
+			
+			if (number != number.toFixed(3))
+				number = number.toFixed(3);
+
+			return number + 'mil'
+		}
+
+		function coordToMM(coord) {
+			var number = 0.0254 * coord / 10000;
+			
+			if (number != number.toFixed(4))
+				number = number.toFixed(4);
+			
+			return number + 'mm'
+		}
+	
+		function convertCoord(coordNode, units) {
+			for (var i = 0; i < coordNode.childNodes.length; i++) {
+				coordNode.removeChild(coordNode.childNodes[i]);
+			}
+
+			var coord = coordNode.getAttribute('value');
+			if (coord != null) {
+				if (units == 'mm') {
+					textNode = document.createTextNode(coordToMM(coord));
+					coordNode.appendChild(textNode);
+				} else if (units == 'mil') {
+					textNode = document.createTextNode(coordToMils(coord));		
+					coordNode.appendChild(textNode);	
+				}
+			}
+		}
+	
+		function convertUnits(unitNode, units) {
+			for (var i = 0; i < unitNode.childNodes.length; i++) {
+				unitNode.removeChild(unitNode.childNodes[i]);		
+			}
+		
+			textNode = document.createTextNode(units); 
+			unitNode.appendChild(textNode);
+		}
+	
+		function changeUnits(radio_input, units) {
+			if (radio_input.checked) {
+			
+				var elements = document.getElementsByName('coordinate');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertCoord(elements[i], units);
+					}
+				}
+	
+				var elements = document.getElementsByName('units');
+				if (elements) {
+					for (var i = 0; i < elements.length; i++) {
+						convertUnits(elements[i], units);
+					}
+				}
+			}
+		}
+	</script><title>Design Rule Verification Report</title>
+</head>
+<body onload=""><img ALT="Altium" src="
+			file://C:\Users\Public\Documents\Altium\AD21\Templates\AD_logo.png
+		"><h1>Design Rule Verification Report</h1>
+<table class="header_holder">
+<td class="column1">
+<table class="front_matter">
+<tr class="front_matter">
+<td class="front_matter_column1">Date:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">10/3/2022</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">6:36:11 PM</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Elapsed Time:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3">00:00:01</td>
+</tr>
+<tr class="front_matter">
+<td class="front_matter_column1">Filename:</td>
+<td class="front_matter_column2"></td>
+<td class="front_matter_column3"><a href="file:///C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc" class="file"><acronym title="C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc">C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc</acronym></a></td>
+</tr>
+</table>
+</td>
+<td class="column2">
+<table class="DRC_summary_header">
+<tr>
+<td class="DRC_summary_header_col1">Warnings:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3">0</td></tr>
+<tr>
+<td class="DRC_summary_header_col1">Rule Violations:</td>
+<td class="DRC_summary_header_col2"></td>
+<td class="DRC_summary_header_col3" style="color : red">103</td></tr>
+</table>
+</td>
+</table><a name="IDVI1SXBUUU3BFEFWXMZASEDMPGNGC2BPOVAN2CVF5F1I2W2KLBJ3L"><h2>Summary</h2></a><table>
+<tr>
+<th class="column1">Warnings</th>
+<th class="column2">Count</th>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">0</td>
+</tr>
+</table><br><table>
+<tr>
+<th class="column1">Rule Violations</th>
+<th class="column2">Count</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#ID2T5FFKZ33NKEEEYD0YRT00FV2NPDXSKI2VAXM3HDUVYDFFWZRARP">Clearance Constraint (Gap=10mil) (All),(All)</a></td>
+<td class="column2">103</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDMVMP1WKS2OPTPCSHXEOF5WWGHJJV2VJH40BVTJETDGBS3QVBRXAB">Short-Circuit Constraint (Allowed=No) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDC2XWJ0OXV2QYM4Y4UPDUBEAMDIGB3E2XLAAMTPF0QDHYQOKNMCR">Un-Routed Net Constraint ( (All) )</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID5EAUXL4DKTNJN5TYDBYZWXWNLB2DEYSNPUXD0BJVWO4SZ22I44C">Modified Polygon (Allow modified: No), (Allow shelved: No)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDSMFTHFQ0BJKUHHGRNTMKPMYSZGJTTZ0DO55VYMPKOOQJEFEO2QMK">Width Constraint (Min=10mil) (Max=10mil) (Preferred=10mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDDJS0V2LM25EAMGS45JSHFLUNBOICKHFQ3SYRODIC1ZN4P4MZSBWL">Power Plane Connect Rule(Relief Connect )(Expansion=20mil) (Conductor Width=10mil) (Air Gap=10mil) (Entries=4) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDEZ0B1TQ5NN01MN1STE2SBLKK4KV2BNGM4XL41FMMRAQS2IWNUSXL">Hole Size Constraint (Min=1mil) (Max=100mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDBG4B3KZ1O4USOITCCLIRV4IX4HEEWVV54VPVN0EDJ2SCU4EAHMSB">Hole To Hole Clearance (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDMV5M4NVBJ15PO0WTYXKFFFFAYHASOOISL5GZX3C5SVBGZMCFHUVM">Minimum Solder Mask Sliver (Gap=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#IDXD5Z5LHQO3JRAI0QKNJOBBVPB3OGST3JIGEMYDDARTMH4HF1B3G">Silk to Silk (Clearance=10mil) (All),(All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="#IDUKV4O0GDQQWEMDVLT43HBI0MJNGOFS4EC1KXHDH4SLH5DJZKZPKE">Net Antennae (Tolerance=0mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="#ID0RA4JXIO3KEQHW1HMPXBOF4CYDD3P5ELCY3KPMBIQNIVO5XKIEI">Height Constraint (Min=0mil) (Max=1000mil) (Prefered=500mil) (All)</a></td>
+<td class="column2">0</td>
+</tr>
+<tr>
+<td style="font-weight : bold; text-align : right" class="column1">Total</td>
+<td style="font-weight : bold" class="column2">103</td>
+</tr>
+</table><br><a name="ID2T5FFKZ33NKEEEYD0YRT00FV2NPDXSKI2VAXM3HDUVYDFFWZRARP"><table>
+<tr>
+<th style="text-align : left" colspan="1" class="rule">Clearance Constraint (Gap=10mil) (All),(All)</th>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=3716.167mil|Location2.Y=3723.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=3716.167mil|Location2.Y=3723.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (115mil,1335mil)(160mil,1380mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2696.167mil|Location2.Y=2703.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2696.167mil|Location2.Y=2703.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (115mil,315mil)(115mil,440mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2696.167mil|Location2.Y=2703.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2696.167mil|Location2.Y=2703.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (115mil,315mil)(200mil,230mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (115mil,440mil)(115mil,1335mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3561.167mil|Location2.X=3568.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (115mil,440mil)(195mil,360mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3606.167mil|Location2.X=3613.833mil|Location1.Y=3761.167mil|Location2.Y=3768.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3606.167mil|Location2.X=3613.833mil|Location1.Y=3761.167mil|Location2.Y=3768.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (160mil,1380mil)(170mil,1380mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (165mil,555mil)(165mil,605mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (165mil,555mil)(260mil,460mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2986.167mil|Location2.Y=2993.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=2986.167mil|Location2.Y=2993.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (165mil,605mil)(209.812mil,605mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=3286.167mil|Location2.Y=3293.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3611.167mil|Location2.X=3618.833mil|Location1.Y=3286.167mil|Location2.Y=3293.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (165mil,905mil)(167.5mil,907.5mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (167.5mil,1005mil)(167.5mil,1102.5mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (167.5mil,1005mil)(195mil,1005mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3483.667mil|Location2.Y=3491.333mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3483.667mil|Location2.Y=3491.333mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (167.5mil,1102.5mil)(170mil,1105mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3288.667mil|Location2.Y=3296.333mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3613.667mil|Location2.X=3621.333mil|Location1.Y=3288.667mil|Location2.Y=3296.333mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (167.5mil,907.5mil)(167.5mil,1005mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3486.167mil|Location2.Y=3493.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3486.167mil|Location2.Y=3493.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (170mil,1105mil)(240mil,1105mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3586.167mil|Location2.Y=3593.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3586.167mil|Location2.Y=3593.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (170mil,1205mil)(170mil,1380mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3761.167mil|Location2.Y=3768.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3616.167mil|Location2.X=3623.833mil|Location1.Y=3761.167mil|Location2.Y=3768.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (170mil,1380mil)(260mil,1470mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3642.025mil|Location2.X=3649.691mil|Location1.Y=3387.025mil|Location2.Y=3394.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3642.025mil|Location2.X=3649.691mil|Location1.Y=3387.025mil|Location2.Y=3394.691mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (195.858mil,1005.858mil)(204.142mil,1005.858mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3641.167mil|Location2.X=3648.833mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3641.167mil|Location2.X=3648.833mil|Location1.Y=3386.167mil|Location2.Y=3393.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (195mil,1005mil)(195.858mil,1005.858mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3641.167mil|Location2.X=3648.833mil|Location1.Y=2741.167mil|Location2.Y=2748.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3641.167mil|Location2.X=3648.833mil|Location1.Y=2741.167mil|Location2.Y=2748.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (195mil,360mil)(260mil,360mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3646.167mil|Location2.X=3653.833mil|Location1.Y=2611.167mil|Location2.Y=2618.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3646.167mil|Location2.X=3653.833mil|Location1.Y=2611.167mil|Location2.Y=2618.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (200mil,230mil)(660mil,230mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3650.309mil|Location2.X=3657.975mil|Location1.Y=3387.025mil|Location2.Y=3394.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3650.309mil|Location2.X=3657.975mil|Location1.Y=3387.025mil|Location2.Y=3394.691mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (204.142mil,1005.858mil)(210mil,1000mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3655.979mil|Location2.X=3663.646mil|Location1.Y=2986.167mil|Location2.Y=2993.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3655.979mil|Location2.X=3663.646mil|Location1.Y=2986.167mil|Location2.Y=2993.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (209.812mil,605mil)(252.371mil,562.441mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=2951.167mil|Location2.Y=2958.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=2951.167mil|Location2.Y=2958.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (210mil,570mil)(210mil,665mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=2951.167mil|Location2.Y=2958.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=2951.167mil|Location2.Y=2958.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (210mil,570mil)(225mil,555mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=3046.167mil|Location2.Y=3053.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=3046.167mil|Location2.Y=3053.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (210mil,665mil)(210mil,1000mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=3046.167mil|Location2.Y=3053.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3656.167mil|Location2.X=3663.833mil|Location1.Y=3046.167mil|Location2.Y=3053.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (210mil,665mil)(270mil,605mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3671.167mil|Location2.X=3678.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3671.167mil|Location2.X=3678.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (225mil,555mil)(290mil,555mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3686.167mil|Location2.X=3693.833mil|Location1.Y=3486.167mil|Location2.Y=3493.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3686.167mil|Location2.X=3693.833mil|Location1.Y=3486.167mil|Location2.Y=3493.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (240mil,1105mil)(260mil,1125mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3698.538mil|Location2.X=3706.205mil|Location1.Y=2943.608mil|Location2.Y=2951.274mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3698.538mil|Location2.X=3706.205mil|Location1.Y=2943.608mil|Location2.Y=2951.274mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (252.371mil,562.441mil)(307.441mil,562.441mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3506.167mil|Location2.Y=3513.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3506.167mil|Location2.Y=3513.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (260mil,1125mil)(260mil,1205mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3586.167mil|Location2.Y=3593.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3586.167mil|Location2.Y=3593.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (260mil,1205mil)(360mil,1305mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3851.167mil|Location2.Y=3858.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3706.167mil|Location2.X=3713.833mil|Location1.Y=3851.167mil|Location2.Y=3858.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (260mil,1470mil)(385mil,1470mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3716.167mil|Location2.X=3723.833mil|Location1.Y=3286.167mil|Location2.Y=3293.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3716.167mil|Location2.X=3723.833mil|Location1.Y=3286.167mil|Location2.Y=3293.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (270mil,905mil)(272.559mil,907.559mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3718.726mil|Location2.X=3726.392mil|Location1.Y=3288.726mil|Location2.Y=3296.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3718.726mil|Location2.X=3726.392mil|Location1.Y=3288.726mil|Location2.Y=3296.392mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (272.559mil,907.559mil)(312.559mil,907.559mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3736.167mil|Location2.X=3743.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3736.167mil|Location2.X=3743.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (290mil,555mil)(335mil,510mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3753.608mil|Location2.X=3761.274mil|Location1.Y=2943.608mil|Location2.Y=2951.274mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3753.608mil|Location2.X=3761.274mil|Location1.Y=2943.608mil|Location2.Y=2951.274mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (307.441mil,562.441mil)(346.33mil,601.33mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3758.726mil|Location2.X=3766.392mil|Location1.Y=3288.726mil|Location2.Y=3296.392mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3758.726mil|Location2.X=3766.392mil|Location1.Y=3288.726mil|Location2.Y=3296.392mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (312.559mil,907.559mil)(346.417mil,941.417mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (335mil,445mil)(335mil,510mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (335mil,445mil)(365mil,415mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2891.167mil|Location2.Y=2898.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3781.167mil|Location2.X=3788.833mil|Location1.Y=2891.167mil|Location2.Y=2898.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (335mil,510mil)(345mil,500mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3791.167mil|Location2.X=3798.833mil|Location1.Y=2881.167mil|Location2.Y=2888.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3791.167mil|Location2.X=3798.833mil|Location1.Y=2881.167mil|Location2.Y=2888.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (345mil,500mil)(390mil,500mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.497mil|Location2.X=3800.164mil|Location1.Y=2982.497mil|Location2.Y=2990.164mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.497mil|Location2.X=3800.164mil|Location1.Y=2982.497mil|Location2.Y=2990.164mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (346.33mil,601.33mil)(388.67mil,601.33mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.584mil|Location2.X=3800.251mil|Location1.Y=3322.584mil|Location2.Y=3330.251mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3792.584mil|Location2.X=3800.251mil|Location1.Y=3322.584mil|Location2.Y=3330.251mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (346.417mil,941.417mil)(417.047mil,941.417mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3806.167mil|Location2.X=3813.833mil|Location1.Y=3686.167mil|Location2.Y=3693.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3806.167mil|Location2.X=3813.833mil|Location1.Y=3686.167mil|Location2.Y=3693.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (360mil,1305mil)(504.142mil,1305mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.167mil|Location2.X=3818.833mil|Location1.Y=2796.167mil|Location2.Y=2803.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3811.167mil|Location2.X=3818.833mil|Location1.Y=2796.167mil|Location2.Y=2803.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (365mil,415mil)(775mil,415mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.167mil|Location2.X=3838.833mil|Location1.Y=3851.167mil|Location2.Y=3858.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3831.167mil|Location2.X=3838.833mil|Location1.Y=3851.167mil|Location2.Y=3858.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (385mil,1470mil)(410mil,1445mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3834.836mil|Location2.X=3842.503mil|Location1.Y=2982.497mil|Location2.Y=2990.164mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3834.836mil|Location2.X=3842.503mil|Location1.Y=2982.497mil|Location2.Y=2990.164mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (388.67mil,601.33mil)(390mil,600mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3836.167mil|Location2.X=3843.833mil|Location1.Y=3181.167mil|Location2.Y=3188.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3836.167mil|Location2.X=3843.833mil|Location1.Y=3181.167mil|Location2.Y=3188.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (390mil,800mil)(390mil,874.142mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3836.167mil|Location2.X=3843.833mil|Location1.Y=3255.309mil|Location2.Y=3262.975mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3836.167mil|Location2.X=3843.833mil|Location1.Y=3255.309mil|Location2.Y=3262.975mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (390mil,874.142mil)(395.858mil,880mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3842.025mil|Location2.X=3849.691mil|Location1.Y=3261.167mil|Location2.Y=3268.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3842.025mil|Location2.X=3849.691mil|Location1.Y=3261.167mil|Location2.Y=3268.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (395.858mil,880mil)(659.142mil,880mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3741.167mil|Location2.Y=3748.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3741.167mil|Location2.Y=3748.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (410mil,1360mil)(410mil,1420mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (410mil,1420mil)(410mil,1425mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3806.167mil|Location2.Y=3813.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3806.167mil|Location2.Y=3813.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (410mil,1425mil)(410mil,1445mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3806.167mil|Location2.Y=3813.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3856.167mil|Location2.X=3863.833mil|Location1.Y=3806.167mil|Location2.Y=3813.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (410mil,1425mil)(415mil,1420mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3861.167mil|Location2.X=3868.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3861.167mil|Location2.X=3868.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (415mil,1420mil)(540mil,1420mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.88mil|Location1.Y=3499.749mil|Location2.Y=3507.416mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.88mil|Location1.Y=3499.749mil|Location2.Y=3507.416mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (417.047mil,1118.583mil)(417.047mil,1237.953mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.88mil|Location1.Y=3619.12mil|Location2.Y=3626.786mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.88mil|Location1.Y=3619.12mil|Location2.Y=3626.786mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (417.047mil,1237.953mil)(464.094mil,1285mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.881mil|Location1.Y=2714.749mil|Location2.Y=2722.416mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3863.214mil|Location2.X=3870.881mil|Location1.Y=2714.749mil|Location2.Y=2722.416mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (417.047mil,333.583mil)(513.465mil,430mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.261mil|Location2.X=3917.927mil|Location1.Y=3666.167mil|Location2.Y=3673.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3910.261mil|Location2.X=3917.927mil|Location1.Y=3666.167mil|Location2.Y=3673.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (464.094mil,1285mil)(529.142mil,1285mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3950.309mil|Location2.X=3957.975mil|Location1.Y=3686.167mil|Location2.Y=3693.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3950.309mil|Location2.X=3957.975mil|Location1.Y=3686.167mil|Location2.Y=3693.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (504.142mil,1305mil)(510mil,1310.858mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3956.167mil|Location2.X=3963.833mil|Location1.Y=3692.025mil|Location2.Y=3699.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3956.167mil|Location2.X=3963.833mil|Location1.Y=3692.025mil|Location2.Y=3699.691mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (510mil,1310.858mil)(510mil,1360mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3959.631mil|Location2.X=3967.298mil|Location1.Y=2811.167mil|Location2.Y=2818.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3959.631mil|Location2.X=3967.298mil|Location1.Y=2811.167mil|Location2.Y=2818.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (513.465mil,430mil)(675mil,430mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.309mil|Location2.X=3982.975mil|Location1.Y=3666.167mil|Location2.Y=3673.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3975.309mil|Location2.X=3982.975mil|Location1.Y=3666.167mil|Location2.Y=3673.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (529.142mil,1285mil)(560mil,1315.858mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3986.167mil|Location2.X=3993.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=3986.167mil|Location2.X=3993.833mil|Location1.Y=3801.167mil|Location2.Y=3808.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (540mil,1420mil)(560mil,1400mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4006.167mil|Location2.X=4013.833mil|Location1.Y=3697.025mil|Location2.Y=3704.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4006.167mil|Location2.X=4013.833mil|Location1.Y=3697.025mil|Location2.Y=3704.691mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (560mil,1315.858mil)(560mil,1400mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4006.167mil|Location2.X=4013.833mil|Location1.Y=3697.025mil|Location2.Y=3704.691mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4006.167mil|Location2.X=4013.833mil|Location1.Y=3697.025mil|Location2.Y=3704.691mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (560mil,1315.858mil)(612.929mil,1262.929mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4056.167mil|Location2.X=4063.833mil|Location1.Y=3671.167mil|Location2.Y=3678.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4056.167mil|Location2.X=4063.833mil|Location1.Y=3671.167mil|Location2.Y=3678.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (610mil,1290mil)(610mil,1360mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4056.167mil|Location2.X=4063.833mil|Location1.Y=3671.167mil|Location2.Y=3678.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4056.167mil|Location2.X=4063.833mil|Location1.Y=3671.167mil|Location2.Y=3678.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (610mil,1290mil)(717.48mil,1182.52mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4059.096mil|Location2.X=4066.762mil|Location1.Y=3644.096mil|Location2.Y=3651.762mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4059.096mil|Location2.X=4066.762mil|Location1.Y=3644.096mil|Location2.Y=3651.762mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (612.929mil,1262.929mil)(672.071mil,1262.929mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4105.309mil|Location2.X=4112.975mil|Location1.Y=3261.167mil|Location2.Y=3268.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4105.309mil|Location2.X=4112.975mil|Location1.Y=3261.167mil|Location2.Y=3268.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (659.142mil,880mil)(672.953mil,893.811mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4106.167mil|Location2.X=4113.833mil|Location1.Y=2611.167mil|Location2.Y=2618.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4106.167mil|Location2.X=4113.833mil|Location1.Y=2611.167mil|Location2.Y=2618.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (660mil,230mil)(672.953mil,217.047mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4118.238mil|Location2.X=4125.904mil|Location1.Y=3644.096mil|Location2.Y=3651.762mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4118.238mil|Location2.X=4125.904mil|Location1.Y=3644.096mil|Location2.Y=3651.762mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (672.071mil,1262.929mil)(725mil,1210mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.12mil|Location2.X=4126.786mil|Location1.Y=2537.584mil|Location2.Y=2545.251mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.12mil|Location2.X=4126.786mil|Location1.Y=2537.584mil|Location2.Y=2545.251mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (672.953mil,156.417mil)(672.953mil,217.047mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.12mil|Location2.X=4126.786mil|Location1.Y=2714.749mil|Location2.Y=2722.416mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.12mil|Location2.X=4126.786mil|Location1.Y=2714.749mil|Location2.Y=2722.416mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (672.953mil,333.583mil)(673.662mil,334.291mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.119mil|Location2.X=4126.786mil|Location1.Y=3274.977mil|Location2.Y=3282.644mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.119mil|Location2.X=4126.786mil|Location1.Y=3274.977mil|Location2.Y=3282.644mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (672.953mil,893.811mil)(672.953mil,941.417mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.828mil|Location2.X=4127.495mil|Location1.Y=2715.458mil|Location2.Y=2723.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4119.828mil|Location2.X=4127.495mil|Location1.Y=2715.458mil|Location2.Y=2723.125mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (673.662mil,334.291mil)(799.291mil,334.291mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4121.167mil|Location2.X=4128.833mil|Location1.Y=2811.167mil|Location2.Y=2818.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4121.167mil|Location2.X=4128.833mil|Location1.Y=2811.167mil|Location2.Y=2818.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (675mil,430mil)(690mil,445mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=2826.167mil|Location2.Y=2833.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (690mil,445mil)(690mil,500mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=2981.167mil|Location2.Y=2988.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=2981.167mil|Location2.Y=2988.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (690mil,600mil)(780mil,690mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3081.167mil|Location2.Y=3088.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3081.167mil|Location2.Y=3088.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (690mil,700mil)(750mil,700mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3181.167mil|Location2.Y=3188.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3181.167mil|Location2.Y=3188.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (690mil,800mil)(690mil,850mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3231.167mil|Location2.Y=3238.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4136.167mil|Location2.X=4143.833mil|Location1.Y=3231.167mil|Location2.Y=3238.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (690mil,850mil)(725mil,885mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.167mil|Location2.X=4163.833mil|Location1.Y=3661.167mil|Location2.Y=3668.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.167mil|Location2.X=4163.833mil|Location1.Y=3661.167mil|Location2.Y=3668.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (710mil,1280mil)(710mil,1360mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.167mil|Location2.X=4163.833mil|Location1.Y=3661.167mil|Location2.Y=3668.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4156.167mil|Location2.X=4163.833mil|Location1.Y=3661.167mil|Location2.Y=3668.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (710mil,1280mil)(800mil,1190mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4163.647mil|Location2.X=4171.314mil|Location1.Y=3413.686mil|Location2.Y=3421.353mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4163.647mil|Location2.X=4171.314mil|Location1.Y=3413.686mil|Location2.Y=3421.353mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (717.48mil,1032.52mil)(717.48mil,1182.52mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4163.647mil|Location2.X=4171.314mil|Location1.Y=3413.686mil|Location2.Y=3421.353mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4163.647mil|Location2.X=4171.314mil|Location1.Y=3413.686mil|Location2.Y=3421.353mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (717.48mil,1032.52mil)(850mil,900mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4171.167mil|Location2.X=4178.833mil|Location1.Y=3266.167mil|Location2.Y=3273.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4171.167mil|Location2.X=4178.833mil|Location1.Y=3266.167mil|Location2.Y=3273.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (725mil,885mil)(725mil,1210mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4196.167mil|Location2.X=4203.833mil|Location1.Y=3081.167mil|Location2.Y=3088.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4196.167mil|Location2.X=4203.833mil|Location1.Y=3081.167mil|Location2.Y=3088.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (750mil,700mil)(800mil,750mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4221.167mil|Location2.X=4228.833mil|Location1.Y=2796.167mil|Location2.Y=2803.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4221.167mil|Location2.X=4228.833mil|Location1.Y=2796.167mil|Location2.Y=2803.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (775mil,415mil)(800mil,440mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4226.167mil|Location2.X=4233.833mil|Location1.Y=3071.167mil|Location2.Y=3078.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4226.167mil|Location2.X=4233.833mil|Location1.Y=3071.167mil|Location2.Y=3078.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (780mil,690mil)(820mil,690mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4245.458mil|Location2.X=4253.125mil|Location1.Y=2715.458mil|Location2.Y=2723.125mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4245.458mil|Location2.X=4253.125mil|Location1.Y=2715.458mil|Location2.Y=2723.125mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (799.291mil,334.291mil)(800mil,335mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=3431.167mil|Location2.Y=3438.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=3431.167mil|Location2.Y=3438.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,1050mil)(800mil,1190mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=3431.167mil|Location2.Y=3438.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=3431.167mil|Location2.Y=3438.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,1050mil)(900mil,1050mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2821.167mil|Location2.Y=2828.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,440mil)(800mil,550mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,550mil)(800mil,555mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,555mil)(800mil,635mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4246.167mil|Location2.X=4253.833mil|Location1.Y=2936.167mil|Location2.Y=2943.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (800mil,555mil)(805mil,550mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4251.167mil|Location2.X=4258.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4251.167mil|Location2.X=4258.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (805mil,550mil)(840mil,550mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4266.167mil|Location2.X=4273.833mil|Location1.Y=3071.167mil|Location2.Y=3078.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4266.167mil|Location2.X=4273.833mil|Location1.Y=3071.167mil|Location2.Y=3078.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (820mil,690mil)(850mil,720mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4286.167mil|Location2.X=4293.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4286.167mil|Location2.X=4293.833mil|Location1.Y=2931.167mil|Location2.Y=2938.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (840mil,550mil)(900mil,610mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_even" onmouseover="className = 'onmouseover_even'" onmouseout="className = 'onmouseout_even'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4296.167mil|Location2.X=4303.833mil|Location1.Y=3101.167mil|Location2.Y=3108.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4296.167mil|Location2.X=4303.833mil|Location1.Y=3101.167mil|Location2.Y=3108.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (850mil,720mil)(850mil,900mil) on Top Layer </acronym></a><br></td>
+</tr>
+<tr class="onmouseout_odd" onmouseover="className = 'onmouseover_odd'" onmouseout="className = 'onmouseout_odd'">
+<td class="column1"><a href="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4346.167mil|Location2.X=4353.833mil|Location1.Y=2991.167mil|Location2.Y=2998.833mil|Absolute=True" class="callback"><acronym title="dxpprocess://PCB:Zoom?document=C:\Users\gdona\OneDrive\Documents\Personal Stuff\Scoreboard Proj\ScoreBoard_Remote_Prj\Remote_PCB.PcbDoc;viewname=PCBEditor;Action=AREA_DYNAMICZOOM|Location1.X=4346.167mil|Location2.X=4353.833mil|Location1.Y=2991.167mil|Location2.Y=2998.833mil|Absolute=True">Clearance Constraint: (Collision &lt; 10mil) Track (900mil,610mil)(900mil,750mil) on Bottom Layer </acronym></a><br></td>
+</tr>
+</table></a><hr color="#EEEEEE"><a href="#top" style="font-size: 0.9em">Back to top</a><br><br></body>
+</html>

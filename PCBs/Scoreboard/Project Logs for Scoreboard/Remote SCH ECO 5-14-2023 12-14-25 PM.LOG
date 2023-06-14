@@ -1,0 +1,43 @@
+Remove Pin=Arduino Mega-9 From Net=OE
+Remove Pin=Arduino Mega-10 From Net=LAT
+Remove Pin=Arduino Mega-11 From Net=CLK
+Remove Pin=Arduino Mega-16 From Net=ARD_TX
+Remove Pin=Arduino Mega-17 From Net=ARD_RX
+Remove Pin=Arduino Mega-24 From Net=R1
+Remove Pin=Arduino Mega-25 From Net=G1
+Remove Pin=Arduino Mega-26 From Net=B1
+Remove Pin=Arduino Mega-27 From Net=R2
+Remove Pin=Arduino Mega-28 From Net=G2
+Remove Pin=Arduino Mega-29 From Net=B2
+Remove Pin=Arduino Mega-50 From Net=ARD_MISO
+Remove Pin=Arduino Mega-51 From Net=ARD_MOSI
+Remove Pin=Arduino Mega-52 From Net=ARD_CLK
+Remove Pin=Arduino Mega-53 From Net=ARD_CS
+Remove Pin=Arduino Mega-60 From Net=A
+Remove Pin=Arduino Mega-61 From Net=B
+Remove Pin=Arduino Mega-62 From Net=C
+Remove Pin=Arduino Mega-63 From Net=D
+Remove Pin=P4-3 From Net=GND
+Remove Pin=P4-4 From Net=ARD_CLK
+Remove Pin=P4-5 From Net=ARD_MISO
+Remove Pin=P4-6 From Net=ARD_MOSI
+Remove Pin=P4-7 From Net=ARD_CS
+Remove Pin=P5-4 From Net=ARD_RX
+Remove Pin=P6-1 From Net=R1
+Remove Pin=P6-2 From Net=G1
+Remove Pin=P6-3 From Net=B1
+Remove Pin=P6-4 From Net=GND
+Remove Pin=P6-5 From Net=R2
+Remove Pin=P6-6 From Net=G2
+Remove Pin=P6-7 From Net=B2
+Remove Pin=P6-8 From Net=GND
+Remove Pin=P6-9 From Net=A
+Remove Pin=P6-10 From Net=B
+Remove Pin=P6-11 From Net=C
+Remove Pin=P6-12 From Net=D
+Remove Pin=P6-13 From Net=CLK
+Remove Pin=P6-14 From Net=LAT
+Remove Pin=P6-15 From Net=OE
+Remove Pin=P6-16 From Net=GND
+Remove Pin=R2-2 From Net=ARD_TX
+Change Component Footprint: Designator=* Old Footprint=CR2032 Holder-Footprint-1 New Footprint=CR2032 Holder-Footprint-1

@@ -1,0 +1,20 @@
+----------------------------------------------------------------------------------------------------------------------------------
+NCDrill File Report For: Scoreboard.PcbDoc   5/16/2023  4:19:00 PM
+----------------------------------------------------------------------------------------------------------------------------------
+
+Layer Pair : Top Layer to Bottom Layer
+ASCII RoundHoles File : Scoreboard-RoundHoles.TXT
+ASCII SlotHoles File : Scoreboard-SlotHoles.TXT
+
+Tool       Hole Size               Hole Tolerance               Hole Type       Hole Count   Plated         Tool Travel
+----------------------------------------------------------------------------------------------------------------------------------
+T1      28mil (0.711mm)                                           Round             1         PTH        0.00inch (0.00mm)
+T2      30mil (0.762mm)                                           Round             110       PTH        0.00inch (0.00mm)
+T3      33mil (0.85mm)                                            Round             6         PTH        0.00inch (0.00mm)
+T4      35mil (0.9mm)                                             Round             138       PTH        0.00inch (0.00mm)
+T5      36mil (0.91mm)                                            Round             2         PTH        0.00inch (0.00mm)
+T6      39mil (1mm)                                               Slot              3         PTH        0.00inch (0.00mm)
+----------------------------------------------------------------------------------------------------------------------------------
+Totals                                                                              260
+
+Total Processing Time (hh:mm:ss) : 00:00:01
