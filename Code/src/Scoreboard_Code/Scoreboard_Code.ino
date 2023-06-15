@@ -4,7 +4,10 @@
 
 RGBmatrixPanel matrix = RGBmatrixPanel(A, B, C, D, CLK, LAT, OE, false, 64);
 
-CustomFrame cFrame = CustomFrame(matrix);
+CustomFrame cFrame = CustomFrame();
+
+//Temp serial vars
+char receivedChar = ' ';
 
 void setup() {
   // put your setup code here, to run once:
@@ -12,12 +15,28 @@ void setup() {
   Serial.println("Start...");
   matrix.begin();
 
-  cFrame.displayFrame(matrix, "bballNR.txt");
+  cFrame.genBaseballNR(matrix);
 }
 
 void loop() {
-  delay(5000);
-  cFrame.displayFrame(matrix, "gabe.txt");
-  delay(5000);
-  cFrame.displayFrame(matrix, "bballNR.txt");
+  recvOneChar();
+
+  if(receivedChar == 'r')
+  {
+    cFrame.increaseScore(matrix, false);
+  }
+  else if(receivedChar == 'b')
+  {
+    cFrame.increaseScore(matrix, true);
+  }
+  else if(receivedChar == 'm')
+  {
+    cFrame.baseSprite(matrix);
+  }
+}
+
+void recvOneChar() {
+    if (Serial.available() > 0) {
+        receivedChar = Serial.read();
+    }
 }
