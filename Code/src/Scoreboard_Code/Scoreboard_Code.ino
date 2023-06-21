@@ -29,9 +29,17 @@ void loop() {
   {
     cFrame.increaseScore(matrix, true);
   }
-  else if(receivedChar == 'm')
+  else if(receivedChar == '1')
   {
-    cFrame.baseSprite(matrix);
+    cFrame.hitSingle(matrix);
+  }
+  else if(receivedChar == '2')
+  {
+    cFrame.hitDouble(matrix);
+  }
+  else if(receivedChar == '3')
+  {
+    cFrame.walk(matrix);
   }
 }
 

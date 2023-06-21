@@ -5,8 +5,8 @@ CustomFrame::CustomFrame()
 {
   redScore = 0;
   blueScore = 0;
+  baseEncoding = 0;
   currentFrame = BaseballNRMain; //Change to main menu when done
-  baseEncoding = 6;
 }
 
 //Reads from attached SD card location and RGB data of all pixels
@@ -100,23 +100,16 @@ void CustomFrame::increaseScore(RGBmatrixPanel matrix, boolean team)
   }
 }
 
-void CustomFrame::baseSprite(RGBmatrixPanel matrix)
+void CustomFrame::drawBaseSprite(RGBmatrixPanel matrix, int startCol, int startRow, boolean turnOn)
 {
-  int startCol;
-  int startRow;
-  int endCol;
-  int endRow;
-  
-  //First base
-  if(baseEncoding & 1)
+  int endCol = startCol + BASE_SIZE;
+  int endRow = startRow + BASE_SIZE;
+
+  if(turnOn)
   {
-    startCol = 58;
-    startRow = 19;
-    endCol = 61;
-    endRow = 22;
-    //Fill out second base
+    //Fill out base
     matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(255, 255, 0));
-    for(int i = 0; i < endCol-startCol; i++)
+    for(int i = 0; i < BASE_SIZE; i++)
     {
       matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(255, 255, 0));
       matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(255, 255, 0));
@@ -124,76 +117,113 @@ void CustomFrame::baseSprite(RGBmatrixPanel matrix)
   }
   else
   {
-    startCol = 58;
-    startRow = 19;
-    endCol = 61;
-    endRow = 22;
-    //Fill out second base
     matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(0, 0, 0));
-    for(int i = 0; i < endCol-startCol; i++)
+    for(int i = 0; i < BASE_SIZE; i++)
     {
       matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(0, 0, 0));
       matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(0, 0, 0));
     }
+  }
+}
+
+void CustomFrame::updateBases(RGBmatrixPanel matrix)
+{
+  //First base
+  if(baseEncoding & 1)
+  {
+    drawBaseSprite(matrix, _1B_NR_COL, _1B_NR_ROW, true);
+  }
+  else
+  {
+    drawBaseSprite(matrix, _1B_NR_COL, _1B_NR_ROW, false);
   }
   
   //Second base
   if(baseEncoding & 2)
   {
-    startCol = 52;
-    startRow = 13;
-    endCol = 55;
-    endRow = 16;
-    //Fill out second base
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(255, 255, 0));
-    for(int i = 0; i < endCol-startCol; i++)
-    {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(255, 255, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(255, 255, 0));
-    }
+    drawBaseSprite(matrix, _2B_NR_COL, _2B_NR_ROW, true);
   }
   else
   {
-    startCol = 52;
-    startRow = 13;
-    endCol = 55;
-    endRow = 16;
-    //Fill out second base
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(0, 0, 0));
-    for(int i = 0; i < endCol-startCol; i++)
-    {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(0, 0, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(0, 0, 0));
-    }
+    drawBaseSprite(matrix, _2B_NR_COL, _2B_NR_ROW, false);
   }
 
   //Third base
   if(baseEncoding & 4)
   {
-    startCol = 46;
-    startRow = 19;
-    endCol = 49;
-    endRow = 22;
-    //Fill out second base
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(255, 255, 0));
-    for(int i = 0; i < endCol-startCol; i++)
-    {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(255, 255, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(255, 255, 0));
-    }
+    drawBaseSprite(matrix, _3B_NR_COL, _3B_NR_ROW, true);
   }
   else
   {
-    startCol = 46;
-    startRow = 19;
-    endCol = 49;
-    endRow = 22;
-    //Fill out second base
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(0, 0, 0));
-    for(int i = 0; i < endCol-startCol; i++)
+    drawBaseSprite(matrix, _3B_NR_COL, _3B_NR_ROW, false);
+  }
+}
+
+//Advance all baserunners 1 base via encoding then update
+void CustomFrame::hitSingle(RGBmatrixPanel matrix)
+{
+  baseEncoding = baseEncoding << 1;
+  baseEncoding |= 1;
+
+  updateBases(matrix);
+  checkHome(matrix);
+}
+
+//Advance all baserunners 2 bases via encoding then update
+void CustomFrame::hitDouble(RGBmatrixPanel matrix)
+{
+  baseEncoding = baseEncoding << 2;
+  baseEncoding |= 2;
+
+  updateBases(matrix);
+  checkHome(matrix);
+}
+
+//Advance batter to first, push all other baserunners forward
+void CustomFrame::walk(RGBmatrixPanel matrix)
+{
+  int i = 0;
+
+  if(baseEncoding == 7)
+  {
+    baseEncoding = baseEncoding<<1; //walk home
+    baseEncoding |= 1;
+  }
+
+  else
+  {
+    while(((baseEncoding & (1<<i)) > 0) && (i < 3))
     {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(0, 0, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(0, 0, 0));
+      i++;
+    } 
+  
+    baseEncoding |= (1<<i);
+  }
+  
+  updateBases(matrix);
+  checkHome(matrix);
+}
+
+//Check if runners got home via base encoding
+void CustomFrame::checkHome(RGBmatrixPanel matrix)
+{
+  int addedScore = 0;
+  
+  for(int i = 3; i < 6; i++)
+  {
+    //if bits 4, 5, or 6 are full, increase score and clear bit
+    if((baseEncoding & (1<<i)) > 0)
+    {
+      baseEncoding &= ~(1<<i); //Clear bit
+      addedScore++;
     }
   }
+
+  while(addedScore > 0)
+  {
+    increaseScore(matrix, false); //NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
+    addedScore--;
+  }
+
+  baseEncoding = baseEncoding & 7; //Wipe bits above bit 3 to make sure encoding doesnt break 
 }
