@@ -4,6 +4,8 @@ BaseballNR::BaseballNR()
 {
   redScore = 0;
   blueScore = 0;
+  inning = 1;
+  top = true;
 }
 
 //Bundeled commands for generated baseball no run scorebug
@@ -48,13 +50,16 @@ void BaseballNR::genBaseballNR(RGBmatrixPanel matrix)
   {
     matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW+14, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
   }
+
+  //Innings
+  drawInning(matrix);
 }
 
 //Increases red or blue score
 //Currently need switch for frame selecting, due to scores being in different spots
-void BaseballNR::increaseScore(RGBmatrixPanel matrix, boolean team)
+void BaseballNR::increaseScore(RGBmatrixPanel matrix)
 {
-  if(!team)
+  if(top)
   {
     //Erase old score
     redScore >= 10 ? matrix.setCursor(14,1) : matrix.setCursor(20,1);
@@ -206,7 +211,7 @@ void BaseballNR::checkHome(RGBmatrixPanel matrix)
 
   while(addedScore > 0)
   {
-    increaseScore(matrix, false); //NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
+    increaseScore(matrix); //NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
     addedScore--;
   }
 
@@ -257,6 +262,18 @@ void BaseballNR::recordOut(RGBmatrixPanel matrix)
     baseEncoding = 0;
     updateBases(matrix);
     wipeBS(matrix);
+
+    if(top)
+    {
+      top = !top;
+    }
+    else
+    {
+      top = !top;
+      inning++;
+    }
+
+    drawInning(matrix);
   }
 }
 
@@ -318,4 +335,36 @@ void BaseballNR::wipeBS(RGBmatrixPanel matrix)
   updateDisplayBSO(matrix);
   balls = 0;
   strikes = 0;
+}
+
+void BaseballNR::drawInning(RGBmatrixPanel matrix)
+{
+  if(top)
+  {
+    matrix.drawPixel(2, 2, matrix.Color333(7,7,0));
+    matrix.drawPixel(1, 3, matrix.Color333(7,7,0));
+    matrix.drawPixel(3, 3, matrix.Color333(7,7,0));
+
+    matrix.drawPixel(2, 6, matrix.Color333(0,0,0));
+    matrix.drawPixel(1, 5, matrix.Color333(0,0,0));
+    matrix.drawPixel(3, 5, matrix.Color333(0,0,0));
+  }
+  else
+  {
+    matrix.drawPixel(2, 6, matrix.Color333(7,7,0));
+    matrix.drawPixel(1, 5, matrix.Color333(7,7,0));
+    matrix.drawPixel(3, 5, matrix.Color333(7,7,0));
+
+    matrix.drawPixel(2, 2, matrix.Color333(0,0,0));
+    matrix.drawPixel(1, 3, matrix.Color333(0,0,0));
+    matrix.drawPixel(3, 3, matrix.Color333(0,0,0));
+  }
+
+  matrix.setCursor(5,1);
+  matrix.setTextColor(matrix.Color333(0, 0, 0));
+  matrix.print(String(inning-1));
+
+  matrix.setCursor(5,1);
+  matrix.setTextColor(matrix.Color333(7, 7, 7));
+  matrix.print(String(inning));
 }

@@ -15,6 +15,8 @@ class BaseballNR: public CustomFrame
     byte    balls;
     byte    strikes;
     byte    outs;
+    byte    inning;
+    boolean top;
 
     //Binary encoding for bases, i.e. "001" only first base
     //"110" second and third
@@ -66,8 +68,19 @@ class BaseballNR: public CustomFrame
      */
     void updateDisplayBSO(RGBmatrixPanel matrix);
 
-
+    /*!
+     * @brief Wipes all ball and strike nodes
+     * 
+     * @param matrix    Adafruit RGB matrix panel object
+     */
     void wipeBS(RGBmatrixPanel matrix);
+
+    /*!
+     * @brief Handles drawing inning number and top/bottom chevron
+     * 
+     * @param matrix    Adafruit RGB matrix panel object
+     */
+    void drawInning(RGBmatrixPanel matrix);
 
   public:
 
@@ -85,7 +98,7 @@ class BaseballNR: public CustomFrame
      * @param matrix    Adafruit RGB matrix panel object
      * @param team      False for red, true for blue
      */
-    void increaseScore(RGBmatrixPanel matrix, boolean team);
+    void increaseScore(RGBmatrixPanel matrix);
 
     /*!
      * @brief Advances base runners up 1 base

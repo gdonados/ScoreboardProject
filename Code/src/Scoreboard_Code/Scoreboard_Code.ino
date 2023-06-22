@@ -23,15 +23,7 @@ void setup() {
 void loop() {
   recvOneChar();
 
-  if(receivedChar == 'r')
-  {
-    bballNR.increaseScore(matrix, false);
-  }
-  else if(receivedChar == 'b')
-  {
-    bballNR.increaseScore(matrix, true);
-  }
-  else if(receivedChar == '1')
+  if(receivedChar == '1')
   {
     bballNR.hitSingle(matrix);
   }
