@@ -122,8 +122,6 @@ void CustomFrame::increaseScore(RGBmatrixPanel matrix, boolean team)
         matrix.print(String(blueScore));
       }
       break;
-
-      
   }
 }
 
@@ -194,6 +192,7 @@ void CustomFrame::hitSingle(RGBmatrixPanel matrix)
 
   updateBases(matrix);
   checkHome(matrix);
+  wipeBS(matrix);
 }
 
 //Advance all baserunners 2 bases via encoding then update
@@ -204,6 +203,7 @@ void CustomFrame::hitDouble(RGBmatrixPanel matrix)
 
   updateBases(matrix);
   checkHome(matrix);
+  wipeBS(matrix);
 }
 
 //Advance batter to first, push all other baserunners forward
@@ -229,6 +229,7 @@ void CustomFrame::walk(RGBmatrixPanel matrix)
   
   updateBases(matrix);
   checkHome(matrix);
+  wipeBS(matrix);
 }
 
 //Check if runners got home via base encoding
@@ -259,57 +260,105 @@ void CustomFrame::recordStrike(RGBmatrixPanel matrix)
 {
   strikes++;
 
+  delay(10); //I really don't know why but delays fix doubling up balls/strikes
+
+  updateDisplayBSO(matrix);
+
   if(strikes >= totalStrikes)
   {
     recordOut(matrix);
+    wipeBS(matrix);
   }
-
-  updateDislpayBSO(matrix);
 }
 
 void CustomFrame::recordBall(RGBmatrixPanel matrix)
 {
   balls++;
 
+  delay(10);
+
+  updateDisplayBSO(matrix);
+
   if(balls >= totalBalls)
   {
     walk(matrix);
-    balls = 0;
+    wipeBS(matrix);
   }
-
-  updateDislpayBSO(matrix);
 }
 
 void CustomFrame::recordOut(RGBmatrixPanel matrix)
 {
   outs++;
 
+  delay(10);
+
+  updateDisplayBSO(matrix);
+
   if(outs >= totalOuts)
   {
     outs = 0;
+    baseEncoding = 0;
+    updateBases(matrix);
+    wipeBS(matrix);
   }
-
-  updateDislpayBSO(matrix);
 }
 
-void CustomFrame::updateDislpayBSO(RGBmatrixPanel matrix)
+void CustomFrame::updateDisplayBSO(RGBmatrixPanel matrix)
 {
   //Balls
-  for(int i = 0; i < balls; i++)
+  if(balls >= totalBalls)
   {
-    Serial.println(i);
-    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(7,7,0));
+    for(int i = 0; i < totalBalls; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(0,0,0));
+    }
+  }
+  else
+  {
+    for(int i = 0; i < balls; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(7,7,0));
+    }
   }
 
   //Strikes
-  for(int i = 0; i < strikes; i++)
+  if(strikes >= totalStrikes)
   {
-    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(7,7,0));
+    for(int i = 0; i < totalStrikes; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(0,0,0));
+    }
+  }
+  else
+  {
+    for(int i = 0; i < strikes; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(7,7,0));
+    }
   }
 
   //Strikes
-  for(int i = 0; i < outs; i++)
+  if(outs >= totalOuts)
   {
-    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(7,7,0));
+    for(int i = 0; i < outs; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(0,0,0));
+    }
   }
+  else
+  {
+    for(int i = 0; i < outs; i++)
+    {
+      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(7,7,0));
+    }
+  }
+}
+
+void CustomFrame::wipeBS(RGBmatrixPanel matrix)
+{
+  balls = totalBalls;
+  strikes = totalStrikes;
+  updateDisplayBSO(matrix);
+  balls = 0;
+  strikes = 0;
 }

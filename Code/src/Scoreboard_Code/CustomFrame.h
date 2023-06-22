@@ -90,7 +90,10 @@ class CustomFrame
      * 
      * @param matrix    Adafruit RGB matrix panel object
      */
-    void updateDislpayBSO(RGBmatrixPanel matrix);
+    void updateDisplayBSO(RGBmatrixPanel matrix);
+
+
+    void wipeBS(RGBmatrixPanel matrix);
     
   public:
     /*!
