@@ -1,10 +1,12 @@
 #include "Pins.h"
-#include "CustomFrame.h"
+//#include "CustomFrame.h"
 #include <RGBmatrixPanel.h>
+#include "BaseballNR.h"
 
 RGBmatrixPanel matrix = RGBmatrixPanel(A, B, C, D, CLK, LAT, OE, false, 64);
 
-CustomFrame cFrame = CustomFrame();
+BaseballNR bballNR = BaseballNR();
+//CustomFrame cFrame = CustomFrame();
 
 //Temp serial vars
 char receivedChar = ' ';
@@ -15,7 +17,7 @@ void setup() {
   Serial.println("Start...");
   matrix.begin();
 
-  cFrame.genBaseballNR(matrix);
+  bballNR.genBaseballNR(matrix);
 }
 
 void loop() {
@@ -23,27 +25,27 @@ void loop() {
 
   if(receivedChar == 'r')
   {
-    cFrame.increaseScore(matrix, false);
+    bballNR.increaseScore(matrix, false);
   }
   else if(receivedChar == 'b')
   {
-    cFrame.increaseScore(matrix, true);
+    bballNR.increaseScore(matrix, true);
   }
   else if(receivedChar == '1')
   {
-    cFrame.hitSingle(matrix);
+    bballNR.hitSingle(matrix);
   }
   else if(receivedChar == '2')
   {
-    cFrame.hitDouble(matrix);
+    bballNR.hitDouble(matrix);
   }
   else if(receivedChar == 'z')
   {
-    cFrame.recordBall(matrix);
+    bballNR.recordBall(matrix);
   }
   else if(receivedChar == 'x')
   {
-    cFrame.recordStrike(matrix);
+    bballNR.recordStrike(matrix);
   }
 }
 
