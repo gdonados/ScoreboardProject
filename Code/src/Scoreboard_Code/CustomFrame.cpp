@@ -5,7 +5,6 @@ CustomFrame::CustomFrame()
 {
   redScore = 0;
   blueScore = 0;
-  baseEncoding = 0;
   currentFrame = BaseballNRMain; //Change to main menu when done
 }
 
@@ -50,6 +49,16 @@ void CustomFrame::genBaseballNR(RGBmatrixPanel matrix)
 {
   displayFrame(matrix, BaseballNRFile);
 
+  //defaults
+  baseEncoding  = 0;
+  totalBalls    = 4;
+  totalStrikes  = 3;
+  totalOuts     = 3;
+
+  balls         = 0;
+  strikes       = 0;
+  outs          = 0;
+
   //Red set
   matrix.setCursor(20,1);
   matrix.setTextColor(matrix.Color333(7, 0, 0));
@@ -59,6 +68,24 @@ void CustomFrame::genBaseballNR(RGBmatrixPanel matrix)
   matrix.setCursor(39,1);
   matrix.setTextColor(matrix.Color333(0, 4, 7));
   matrix.print(String(0));
+  
+  //Balls
+  for(int i = 0; i < totalBalls-1; i++)
+  {
+    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+  }
+
+  //Strikes
+  for(int i = 0; i < totalStrikes-1; i++)
+  {
+    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW+7, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+  }
+
+  //Outs
+  for(int i = 0; i < totalStrikes-1; i++)
+  {
+    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW+14, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+  }
 }
 
 //Increases red or blue score
@@ -226,4 +253,63 @@ void CustomFrame::checkHome(RGBmatrixPanel matrix)
   }
 
   baseEncoding = baseEncoding & 7; //Wipe bits above bit 3 to make sure encoding doesnt break 
+}
+
+void CustomFrame::recordStrike(RGBmatrixPanel matrix)
+{
+  strikes++;
+
+  if(strikes >= totalStrikes)
+  {
+    recordOut(matrix);
+  }
+
+  updateDislpayBSO(matrix);
+}
+
+void CustomFrame::recordBall(RGBmatrixPanel matrix)
+{
+  balls++;
+
+  if(balls >= totalBalls)
+  {
+    walk(matrix);
+    balls = 0;
+  }
+
+  updateDislpayBSO(matrix);
+}
+
+void CustomFrame::recordOut(RGBmatrixPanel matrix)
+{
+  outs++;
+
+  if(outs >= totalOuts)
+  {
+    outs = 0;
+  }
+
+  updateDislpayBSO(matrix);
+}
+
+void CustomFrame::updateDislpayBSO(RGBmatrixPanel matrix)
+{
+  //Balls
+  for(int i = 0; i < balls; i++)
+  {
+    Serial.println(i);
+    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(7,7,0));
+  }
+
+  //Strikes
+  for(int i = 0; i < strikes; i++)
+  {
+    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(7,7,0));
+  }
+
+  //Strikes
+  for(int i = 0; i < outs; i++)
+  {
+    matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(7,7,0));
+  }
 }

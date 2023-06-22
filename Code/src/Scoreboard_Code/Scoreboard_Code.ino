@@ -37,9 +37,13 @@ void loop() {
   {
     cFrame.hitDouble(matrix);
   }
-  else if(receivedChar == '3')
+  else if(receivedChar == 'z')
   {
-    cFrame.walk(matrix);
+    cFrame.recordBall(matrix);
+  }
+  else if(receivedChar == 'x')
+  {
+    cFrame.recordStrike(matrix);
   }
 }
 

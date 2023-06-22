@@ -24,6 +24,12 @@ class CustomFrame
   private:
     uint8_t redScore;
     uint8_t blueScore;
+    byte    totalBalls;
+    byte    totalStrikes;
+    byte    totalOuts;
+    byte    balls;
+    byte    strikes;
+    byte    outs;
     
     //Binary encoding for bases, i.e. "001" only first base
     //"110" second and third
@@ -40,6 +46,12 @@ class CustomFrame
     static const int _2B_NR_ROW = 13;
     static const int _3B_NR_COL = 46;
     static const int _3B_NR_ROW = 19;
+
+    static const int BALL_START_COL   = 30;
+    static const int BALL_START_ROW   = 12;
+    static const int IND_BOX_SIZE     = 3;
+    static const int RECORD_START_COL = 31;
+    static const int RECORD_START_ROW = 13;
     
     /*!
      * @brief Generates pixels on display for custom scorebugs
@@ -65,6 +77,20 @@ class CustomFrame
      * @param matrix    Adafruit RGB matrix panel object
      */
     void updateBases(RGBmatrixPanel matrix);
+
+    /*!
+     * @brief Set of functions to record balls, strikes, and outs
+     * 
+     * @param matrix    Adafruit RGB matrix panel object
+     */
+    void recordOut(RGBmatrixPanel matrix);
+
+    /*!
+     * @brief Updates new pixels to indicate balls/strikes/out
+     * 
+     * @param matrix    Adafruit RGB matrix panel object
+     */
+    void updateDislpayBSO(RGBmatrixPanel matrix);
     
   public:
     /*!
@@ -108,6 +134,14 @@ class CustomFrame
      * @brief Checks base encoding to check if baserunners got home
      */
     void checkHome(RGBmatrixPanel matrix);
+
+    /*!
+     * @brief Set of functions to record balls, strikes, and outs
+     * 
+     * @param matrix    Adafruit RGB matrix panel object
+     */
+    void recordStrike(RGBmatrixPanel matrix);
+    void recordBall(RGBmatrixPanel matrix);
 
     /*!
      * @brief Returns current frame
