@@ -1,2 +1,2 @@
 # ScoreboardProject
-Current progress: Baseball frame looks good, colors all mesh well. Score updates properly, however some functions need to be moved to private after testing. Baseball scores should be calculated based on base calculations and encoding. Score should not be updated via the main. Main should only have menu options that interact with the class to updated bases/outs etc. Need to still fill out outs and such, maybe add an indicator for which team is batting. Need to also add selector things for the game menu.
+Current progress: All basic functions for NR baseball are complete, next step is getting the menu to work. Planning to try to make a dedicated class to handle cursor stuff.

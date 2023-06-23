@@ -31,7 +31,7 @@ void CustomFrame::displayFrame(RGBmatrixPanel matrix, char *fileName)
       String line = file.readStringUntil('\n');
       sscanf(line.c_str(), "%d;%d;%d;%d;%d", &row, &col, &r, &g, &b);
 
-      matrix.drawPixel(col, row, matrix.Color888(r/3,g/3,b/3)); //darker for testing
+      matrix.drawPixel(col, row, matrix.Color888(r,g,b)); //darker for testing
     }
 
     file.close();
