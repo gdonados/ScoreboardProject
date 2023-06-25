@@ -3,7 +3,6 @@
 //Constructor
 CustomFrame::CustomFrame()
 {
-  currentFrame = BaseballNRMain; //Change to main menu when done
 }
 
 //Reads from attached SD card location and RGB data of all pixels

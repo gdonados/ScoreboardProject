@@ -8,16 +8,6 @@
 
 #define BaseballNRFile  "bballNR.txt"
 
-enum FrameType
-{
-  MainMenu,
-  Generic,
-  CornholeOptions,
-  CornholeMain,
-  BaseballNROptions,
-  BaseballNRMain //Baseball "No-Run"
-};
-
 /*
  * Class to encapsulate all custom matrix generation 
  * commands for this project
@@ -25,7 +15,7 @@ enum FrameType
 class CustomFrame
 {
   private:
-    FrameType currentFrame;
+//    FrameType currentFrame;
 
   protected:
     /*!
@@ -47,7 +37,7 @@ class CustomFrame
      * @brief Returns current frame
      * @return  Current frame
      */
-    FrameType getCurrentFrame(){return currentFrame;}
+//    FrameType getCurrentFrame(){return currentFrame;}
 };
 
 #endif
