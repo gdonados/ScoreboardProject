@@ -7,6 +7,7 @@
 #include <SD.h>
 
 #define BaseballNRFile  "bballNR.txt"
+#define CornholeFile    "chole.txt"
 
 /*
  * Class to encapsulate all custom matrix generation 
