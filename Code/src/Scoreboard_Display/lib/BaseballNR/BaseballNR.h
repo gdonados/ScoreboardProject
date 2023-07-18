@@ -7,8 +7,6 @@
 class BaseballNR: public CustomFrame
 {
   private:
-    uint8_t redScore;
-    uint8_t blueScore;
     byte    totalBalls;
     byte    totalStrikes;
     byte    totalOuts;
@@ -90,7 +88,7 @@ class BaseballNR: public CustomFrame
      * @brief Generates all baseball scorebug information
      * @param matrix    Adafruit RGB matrix panel object
      */
-    void genBaseballNR(RGBmatrixPanel matrix);
+    void displayFrame(RGBmatrixPanel matrix);
 
     /*!
      * @brief Increases score for either red or blue

@@ -15,9 +15,6 @@
  */
 class CustomFrame
 {
-  private:
-//    FrameType currentFrame;
-
   protected:
     /*!
      * @brief Generates pixels on display for custom scorebugs
@@ -27,7 +24,15 @@ class CustomFrame
      *                  Name has 8 character limit
      */
     void displayFrame(RGBmatrixPanel matrix, char *fileName);
-  
+
+    uint8_t redScore;
+    uint8_t blueScore;
+
+    uint8_t redScoreCol;
+    uint8_t blueScoreCol;
+    uint8_t scoreRow;
+    uint8_t leftScoreTensOffset;
+
   public:
     /*!
      * @brief Constructor for custom frame handler

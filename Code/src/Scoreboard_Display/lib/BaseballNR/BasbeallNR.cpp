@@ -2,16 +2,19 @@
 
 BaseballNR::BaseballNR()
 {
-  redScore = 0;
-  blueScore = 0;
-  inning = 1;
-  top = true;
+  leftScoreTensOffset = 6;
+  redScore      = 0;
+  blueScore     = 0;
+  redScoreCol   = 20;
+  blueScoreCol  = 39;
+  inning        = 1;
+  top           = true;
 }
 
 //Bundeled commands for generated baseball no run scorebug
-void BaseballNR::genBaseballNR(RGBmatrixPanel matrix)
+void BaseballNR::displayFrame(RGBmatrixPanel matrix)
 {
-  displayFrame(matrix, BaseballNRFile);
+  CustomFrame::displayFrame(matrix, BaseballNRFile);
 
   //defaults
   baseEncoding  = 0;
@@ -24,12 +27,12 @@ void BaseballNR::genBaseballNR(RGBmatrixPanel matrix)
   outs          = 0;
 
   //Red set
-  matrix.setCursor(20,1);
+  matrix.setCursor(redScoreCol,scoreRow);
   matrix.setTextColor(matrix.Color333(7, 0, 0));
   matrix.print(String(0));
 
   //Blue set
-  matrix.setCursor(39,1);
+  matrix.setCursor(blueScoreCol,scoreRow);
   matrix.setTextColor(matrix.Color333(0, 4, 7));
   matrix.print(String(0));
   
@@ -59,30 +62,34 @@ void BaseballNR::genBaseballNR(RGBmatrixPanel matrix)
 //Currently need switch for frame selecting, due to scores being in different spots
 void BaseballNR::increaseScore(RGBmatrixPanel matrix)
 {
+  uint16_t colorOff = matrix.Color333(0, 0, 0);
+  uint16_t color;
+  top ? color = matrix.Color333(7, 0, 0) : color = matrix.Color333(0, 4, 7);
+
   if(top)
   {
     //Erase old score
-    redScore >= 10 ? matrix.setCursor(14,1) : matrix.setCursor(20,1);
+    redScore >= 10 ? matrix.setCursor(redScoreCol - leftScoreTensOffset,scoreRow) : matrix.setCursor(redScoreCol,scoreRow);
    
-    matrix.setTextColor(matrix.Color333(0, 0, 0));
+    matrix.setTextColor(colorOff);
     matrix.print(String(redScore));
     redScore++;
 
     //Not future-proofed for scores > 99
-    redScore >= 10 ? matrix.setCursor(14,1) : matrix.setCursor(20,1);
+    redScore >= 10 ? matrix.setCursor(redScoreCol - leftScoreTensOffset,scoreRow) : matrix.setCursor(redScoreCol,scoreRow);
 
-    matrix.setTextColor(matrix.Color333(7, 0, 0));
+    matrix.setTextColor(color);
     matrix.print(String(redScore));
   }
   else
   {
     //Erase old score
-    matrix.setCursor(39,1);
-    matrix.setTextColor(matrix.Color333(0, 0, 0));
+    matrix.setCursor(blueScoreCol,scoreRow);
+    matrix.setTextColor(colorOff);
     matrix.print(String(blueScore));
     blueScore++;
-    matrix.setCursor(39,1);
-    matrix.setTextColor(matrix.Color333(0, 4, 7));
+    matrix.setCursor(blueScoreCol,scoreRow);
+    matrix.setTextColor(color);
     matrix.print(String(blueScore));
   }
 }

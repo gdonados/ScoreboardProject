@@ -1,7 +1,7 @@
 #include <Pins.h>
-//#include "CustomFrame.h"
 #include <RGBmatrixPanel.h>
 #include <BaseballNR.h>
+#include <Cornhole.h>
 #include <CursorSet.h>
 
 RGBmatrixPanel matrix = RGBmatrixPanel(A, B, C, D, CLK, LAT, OE, false, 64);
@@ -20,8 +20,10 @@ FrameType currentFrame;
 
 int cursorLocation = 0;
 
-//BaseballNR scoreboard
-BaseballNR bballNR    = BaseballNR();
+//Scoreboards
+BaseballNR  bballNR   = BaseballNR();
+Cornhole    chole     = Cornhole();
+
 CursorSet bballNRSet  = CursorSet(3, 20, 6);
 
 //Temp serial vars
@@ -41,11 +43,12 @@ void setup() {
   Serial.println("Start...");
   matrix.begin();
 
-  currentFrame = BaseballNRMain;
+  currentFrame = CornholeMain; //Testing
 
-  bballNR.genBaseballNR(matrix);
+  // bballNR.displayFrame(matrix);
+  chole.displayFrame(matrix);
 
-  bballNRSet.cursorSetSelect(matrix);
+  //bballNRSet.cursorSetSelect(matrix);
   bballNRSet.addCursorLocation(13, 20, 6);
   bballNRSet.addCursorLocation(4, 30, 5);
   bballNRSet.addCursorLocation(14, 30, 5);
@@ -56,7 +59,7 @@ void loop() {
 
   if(receivedChar == 'q')
   {
-    bballNRSet.cursorPrev(matrix);
+    //bballNRSet.cursorPrev(matrix);
   }
   else if(receivedChar == 'w')
   {
@@ -82,6 +85,10 @@ void loop() {
           bballNR.recordBall(matrix);
         }
         
+        break;
+
+      case CornholeMain:
+        chole.increaseRoundScore(matrix, true);
         break;
     }
   }
