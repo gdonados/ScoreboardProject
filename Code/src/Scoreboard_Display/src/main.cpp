@@ -13,20 +13,20 @@ enum FrameType
   CornholeOptions,
   CornholeMain,
   BaseballNROptions,
-  BaseballNRMain //Baseball "No-Run"
+  BaseballNRMain // Baseball "No-Run"
 };
 
 FrameType currentFrame;
 
 int cursorLocation = 0;
 
-//Scoreboards
-BaseballNR  bballNR   = BaseballNR();
-Cornhole    chole     = Cornhole();
+// Scoreboards
+BaseballNR bballNR = BaseballNR(&matrix, 3);
+// Cornhole  chole     = Cornhole();
 
-CursorSet bballNRSet  = CursorSet(3, 20, 6);
+CursorSet bballNRSet = CursorSet(&matrix, 3, 20, 6, 2);
 
-//Temp serial vars
+// Temp serial vars
 char receivedChar = ' ';
 
 void recvOneChar()
@@ -37,63 +37,65 @@ void recvOneChar()
   }
 }
 
-void setup() {
+void setup()
+{
   // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Start...");
   matrix.begin();
 
-  currentFrame = CornholeMain; //Testing
+  currentFrame = BaseballNRMain; // Testing
 
-  // bballNR.displayFrame(matrix);
-  chole.displayFrame(matrix);
+  bballNR.displayFrame();
+  // chole.displayFrame(matrix);
 
-  //bballNRSet.cursorSetSelect(matrix);
+  bballNRSet.cursorSetSelect();
   bballNRSet.addCursorLocation(13, 20, 6);
   bballNRSet.addCursorLocation(4, 30, 5);
   bballNRSet.addCursorLocation(14, 30, 5);
+  Serial.println("656 Colors: ");
+  Serial.println(matrix.Color333(7, 7, 7));
 }
 
-void loop() {
+void loop()
+{
   recvOneChar();
 
-  if(receivedChar == 'q')
+  if (receivedChar == 'q')
   {
-    //bballNRSet.cursorPrev(matrix);
+    bballNRSet.cursorPrev();
   }
-  else if(receivedChar == 'w')
+  else if (receivedChar == 'w')
   {
-    switch(currentFrame)
+    switch (currentFrame)
     {
-      case BaseballNRMain:
-        cursorLocation = bballNRSet.getCursorIndex();
+    case BaseballNRMain:
+      cursorLocation = bballNRSet.getCursorIndex();
 
-        if(cursorLocation == 0)
-        {
-          bballNR.hitSingle(matrix);
-        }
-        else if(cursorLocation == 1)
-        {
-          bballNR.hitDouble(matrix);
-        }
-        else if(cursorLocation == 2)
-        {
-          bballNR.recordStrike(matrix);
-        }
-        else
-        {
-          bballNR.recordBall(matrix);
-        }
-        
-        break;
+      if (cursorLocation == 0)
+      {
+        bballNR.hitSingle();
+      }
+      else if (cursorLocation == 1)
+      {
+        bballNR.hitDouble();
+      }
+      else if (cursorLocation == 2)
+      {
+        bballNR.recordStrike();
+      }
+      else
+      {
+        bballNR.recordBall();
+      }
 
-      case CornholeMain:
-        chole.increaseRoundScore(matrix, true);
-        break;
+      break;
+
+    case CornholeMain:
+      // chole.increaseRoundScore(matrix, true);
+      break;
     }
   }
-  else if(receivedChar == 'e')
+  else if (receivedChar == 'e')
   {
-    bballNRSet.cursorNext(matrix);
+    bballNRSet.cursorNext();
   }
 }

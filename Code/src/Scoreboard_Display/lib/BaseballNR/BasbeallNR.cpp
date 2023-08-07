@@ -1,276 +1,276 @@
 #include "BaseballNR.h"
 
-BaseballNR::BaseballNR()
+BaseballNR::BaseballNR(RGBmatrixPanel *matrix, int brightnessScalar)
+    : CustomFrame(matrix, brightnessScalar)
 {
   leftScoreTensOffset = 6;
-  redScore      = 0;
-  blueScore     = 0;
-  redScoreCol   = 20;
-  blueScoreCol  = 39;
-  inning        = 1;
-  top           = true;
+  redScore = 0;
+  blueScore = 0;
+  redScoreCol = 20;
+  blueScoreCol = 39;
+  inning = 1;
+  top = true;
 }
 
-//Bundeled commands for generated baseball no run scorebug
-void BaseballNR::displayFrame(RGBmatrixPanel matrix)
+// Bundeled commands for generated baseball no run scorebug
+void BaseballNR::displayFrame()
 {
-  CustomFrame::displayFrame(matrix, BaseballNRFile);
+  CustomFrame::displayFrame(BaseballNRFile);
 
-  //defaults
-  baseEncoding  = 0;
-  totalBalls    = 4;
-  totalStrikes  = 3;
-  totalOuts     = 3;
+  // defaults
+  baseEncoding = 0;
+  totalBalls = 4;
+  totalStrikes = 3;
+  totalOuts = 3;
 
-  balls         = 0;
-  strikes       = 0;
-  outs          = 0;
+  balls = 0;
+  strikes = 0;
+  outs = 0;
 
-  //Red set
-  matrix.setCursor(redScoreCol,scoreRow);
-  matrix.setTextColor(matrix.Color333(7, 0, 0));
-  matrix.print(String(0));
+  // Red set
+  matrix->setCursor(redScoreCol, scoreRow);
+  matrix->setTextColor(red);
+  matrix->print(String(0));
 
-  //Blue set
-  matrix.setCursor(blueScoreCol,scoreRow);
-  matrix.setTextColor(matrix.Color333(0, 4, 7));
-  matrix.print(String(0));
-  
-  //Balls
-  for(int i = 0; i < totalBalls-1; i++)
+  // Blue set
+  matrix->setCursor(blueScoreCol, scoreRow);
+  matrix->setTextColor(blue);
+  matrix->print(String(0));
+
+  // Balls
+  for (int i = 0; i < totalBalls - 1; i++)
   {
-    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
   }
 
-  //Strikes
-  for(int i = 0; i < totalStrikes-1; i++)
+  // Strikes
+  for (int i = 0; i < totalStrikes - 1; i++)
   {
-    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW+7, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW + 7, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
   }
 
-  //Outs
-  for(int i = 0; i < totalStrikes-1; i++)
+  // Outs
+  for (int i = 0; i < totalStrikes - 1; i++)
   {
-    matrix.drawRect(BALL_START_COL+(i*4), BALL_START_ROW+14, IND_BOX_SIZE, IND_BOX_SIZE, matrix.Color333(7, 7, 0));
+    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW + 14, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
   }
 
-  //Innings
-  drawInning(matrix);
+  // Innings
+  drawInning();
 }
 
-//Increases red or blue score
-//Currently need switch for frame selecting, due to scores being in different spots
-void BaseballNR::increaseScore(RGBmatrixPanel matrix)
+// Increases red or blue score
+// Currently need switch for frame selecting, due to scores being in different spots
+void BaseballNR::increaseScore()
 {
-  uint16_t colorOff = matrix.Color333(0, 0, 0);
   uint16_t color;
-  top ? color = matrix.Color333(7, 0, 0) : color = matrix.Color333(0, 4, 7);
+  top ? color = red : color = blue;
 
-  if(top)
+  if (top)
   {
-    //Erase old score
-    redScore >= 10 ? matrix.setCursor(redScoreCol - leftScoreTensOffset,scoreRow) : matrix.setCursor(redScoreCol,scoreRow);
-   
-    matrix.setTextColor(colorOff);
-    matrix.print(String(redScore));
+    // Erase old score
+    redScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
+
+    matrix->setTextColor(off);
+    matrix->print(String(redScore));
     redScore++;
 
-    //Not future-proofed for scores > 99
-    redScore >= 10 ? matrix.setCursor(redScoreCol - leftScoreTensOffset,scoreRow) : matrix.setCursor(redScoreCol,scoreRow);
+    // Not future-proofed for scores > 99
+    redScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
 
-    matrix.setTextColor(color);
-    matrix.print(String(redScore));
+    matrix->setTextColor(color);
+    matrix->print(String(redScore));
   }
   else
   {
-    //Erase old score
-    matrix.setCursor(blueScoreCol,scoreRow);
-    matrix.setTextColor(colorOff);
-    matrix.print(String(blueScore));
+    // Erase old score
+    matrix->setCursor(blueScoreCol, scoreRow);
+    matrix->setTextColor(off);
+    matrix->print(String(blueScore));
     blueScore++;
-    matrix.setCursor(blueScoreCol,scoreRow);
-    matrix.setTextColor(color);
-    matrix.print(String(blueScore));
+    matrix->setCursor(blueScoreCol, scoreRow);
+    matrix->setTextColor(color);
+    matrix->print(String(blueScore));
   }
 }
 
-void BaseballNR::drawBaseSprite(RGBmatrixPanel matrix, int startCol, int startRow, boolean turnOn)
+void BaseballNR::drawBaseSprite(int startCol, int startRow, boolean turnOn)
 {
   int endCol = startCol + BASE_SIZE;
   int endRow = startRow + BASE_SIZE;
 
-  if(turnOn)
+  if (turnOn)
   {
-    //Fill out base
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(255, 255, 0));
-    for(int i = 0; i < BASE_SIZE; i++)
+    // Fill out base
+    matrix->drawLine(startCol, startRow, endCol, endRow, yellow);
+    for (int i = 0; i < BASE_SIZE; i++)
     {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(255, 255, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(255, 255, 0));
+      matrix->drawLine(startCol, ++startRow, --endCol, endRow, yellow);
+      matrix->drawLine(--startCol, startRow, endCol, ++endRow, yellow);
     }
   }
   else
   {
-    matrix.drawLine(startCol, startRow, endCol, endRow, matrix.Color888(0, 0, 0));
-    for(int i = 0; i < BASE_SIZE; i++)
+    matrix->drawLine(startCol, startRow, endCol, endRow, off);
+    for (int i = 0; i < BASE_SIZE; i++)
     {
-      matrix.drawLine(startCol, ++startRow, --endCol, endRow, matrix.Color888(0, 0, 0));
-      matrix.drawLine(--startCol, startRow, endCol, ++endRow, matrix.Color888(0, 0, 0));
+      matrix->drawLine(startCol, ++startRow, --endCol, endRow, off);
+      matrix->drawLine(--startCol, startRow, endCol, ++endRow, off);
     }
   }
 }
 
-void BaseballNR::updateBases(RGBmatrixPanel matrix)
+void BaseballNR::updateBases()
 {
-  //First base
-  if(baseEncoding & 1)
+  // First base
+  if (baseEncoding & 1)
   {
-    drawBaseSprite(matrix, _1B_NR_COL, _1B_NR_ROW, true);
+    drawBaseSprite(_1B_NR_COL, _1B_NR_ROW, true);
   }
   else
   {
-    drawBaseSprite(matrix, _1B_NR_COL, _1B_NR_ROW, false);
-  }
-  
-  //Second base
-  if(baseEncoding & 2)
-  {
-    drawBaseSprite(matrix, _2B_NR_COL, _2B_NR_ROW, true);
-  }
-  else
-  {
-    drawBaseSprite(matrix, _2B_NR_COL, _2B_NR_ROW, false);
+    drawBaseSprite(_1B_NR_COL, _1B_NR_ROW, false);
   }
 
-  //Third base
-  if(baseEncoding & 4)
+  // Second base
+  if (baseEncoding & 2)
   {
-    drawBaseSprite(matrix, _3B_NR_COL, _3B_NR_ROW, true);
+    drawBaseSprite(_2B_NR_COL, _2B_NR_ROW, true);
   }
   else
   {
-    drawBaseSprite(matrix, _3B_NR_COL, _3B_NR_ROW, false);
+    drawBaseSprite(_2B_NR_COL, _2B_NR_ROW, false);
+  }
+
+  // Third base
+  if (baseEncoding & 4)
+  {
+    drawBaseSprite(_3B_NR_COL, _3B_NR_ROW, true);
+  }
+  else
+  {
+    drawBaseSprite(_3B_NR_COL, _3B_NR_ROW, false);
   }
 }
 
-//Advance all baserunners 1 base via encoding then update
-void BaseballNR::hitSingle(RGBmatrixPanel matrix)
+// Advance all baserunners 1 base via encoding then update
+void BaseballNR::hitSingle()
 {
   baseEncoding = baseEncoding << 1;
   baseEncoding |= 1;
 
-  updateBases(matrix);
-  checkHome(matrix);
-  wipeBS(matrix);
+  updateBases();
+  checkHome();
+  wipeBS();
 }
 
-//Advance all baserunners 2 bases via encoding then update
-void BaseballNR::hitDouble(RGBmatrixPanel matrix)
+// Advance all baserunners 2 bases via encoding then update
+void BaseballNR::hitDouble()
 {
   baseEncoding = baseEncoding << 2;
   baseEncoding |= 2;
 
-  updateBases(matrix);
-  checkHome(matrix);
-  wipeBS(matrix);
+  updateBases();
+  checkHome();
+  wipeBS();
 }
 
-//Advance batter to first, push all other baserunners forward
-void BaseballNR::walk(RGBmatrixPanel matrix)
+// Advance batter to first, push all other baserunners forward
+void BaseballNR::walk()
 {
   int i = 0;
 
-  if(baseEncoding == 7)
+  if (baseEncoding == 7)
   {
-    baseEncoding = baseEncoding<<1; //walk home
+    baseEncoding = baseEncoding << 1; // walk home
     baseEncoding |= 1;
   }
 
   else
   {
-    while(((baseEncoding & (1<<i)) > 0) && (i < 3))
+    while (((baseEncoding & (1 << i)) > 0) && (i < 3))
     {
       i++;
-    } 
-  
-    baseEncoding |= (1<<i);
+    }
+
+    baseEncoding |= (1 << i);
   }
-  
-  updateBases(matrix);
-  checkHome(matrix);
-  wipeBS(matrix);
+
+  updateBases();
+  checkHome();
+  wipeBS();
 }
 
-//Check if runners got home via base encoding
-void BaseballNR::checkHome(RGBmatrixPanel matrix)
+// Check if runners got home via base encoding
+void BaseballNR::checkHome()
 {
   int addedScore = 0;
-  
-  for(int i = 3; i < 6; i++)
+
+  for (int i = 3; i < 6; i++)
   {
-    //if bits 4, 5, or 6 are full, increase score and clear bit
-    if((baseEncoding & (1<<i)) > 0)
+    // if bits 4, 5, or 6 are full, increase score and clear bit
+    if ((baseEncoding & (1 << i)) > 0)
     {
-      baseEncoding &= ~(1<<i); //Clear bit
+      baseEncoding &= ~(1 << i); // Clear bit
       addedScore++;
     }
   }
 
-  while(addedScore > 0)
+  while (addedScore > 0)
   {
-    increaseScore(matrix); //NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
+    increaseScore(); // NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
     addedScore--;
   }
 
-  baseEncoding = baseEncoding & 7; //Wipe bits above bit 3 to make sure encoding doesnt break 
+  baseEncoding = baseEncoding & 7; // Wipe bits above bit 3 to make sure encoding doesnt break
 }
 
-void BaseballNR::recordStrike(RGBmatrixPanel matrix)
+void BaseballNR::recordStrike()
 {
   strikes++;
 
-  delay(10); //I really don't know why but delays fix doubling up balls/strikes
+  delay(10); // I really don't know why but delays fix doubling up balls/strikes
 
-  updateDisplayBSO(matrix);
+  updateDisplayBSO();
 
-  if(strikes >= totalStrikes)
+  if (strikes >= totalStrikes)
   {
-    recordOut(matrix);
-    wipeBS(matrix);
+    recordOut();
+    wipeBS();
   }
 }
 
-void BaseballNR::recordBall(RGBmatrixPanel matrix)
+void BaseballNR::recordBall()
 {
   balls++;
 
   delay(10);
 
-  updateDisplayBSO(matrix);
+  updateDisplayBSO();
 
-  if(balls >= totalBalls)
+  if (balls >= totalBalls)
   {
-    walk(matrix);
-    wipeBS(matrix);
+    walk();
+    wipeBS();
   }
 }
 
-void BaseballNR::recordOut(RGBmatrixPanel matrix)
+void BaseballNR::recordOut()
 {
   outs++;
 
   delay(10);
 
-  updateDisplayBSO(matrix);
+  updateDisplayBSO();
 
-  if(outs >= totalOuts)
+  if (outs >= totalOuts)
   {
     outs = 0;
     baseEncoding = 0;
-    updateBases(matrix);
-    wipeBS(matrix);
+    updateBases();
+    wipeBS();
 
-    if(top)
+    if (top)
     {
       top = !top;
     }
@@ -280,98 +280,106 @@ void BaseballNR::recordOut(RGBmatrixPanel matrix)
       inning++;
     }
 
-    drawInning(matrix);
+    drawInning();
   }
 }
 
-void BaseballNR::updateDisplayBSO(RGBmatrixPanel matrix)
+void BaseballNR::updateDisplayBSO()
 {
-  //Balls
-  if(balls >= totalBalls)
+  // Balls
+  if (balls >= totalBalls)
   {
-    for(int i = 0; i < totalBalls; i++)
+    for (int i = 0; i < totalBalls; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(0,0,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW, off);
     }
   }
   else
   {
-    for(int i = 0; i < balls; i++)
+    for (int i = 0; i < balls; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW, matrix.Color333(7,7,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW, yellow);
     }
   }
 
-  //Strikes
-  if(strikes >= totalStrikes)
+  // Strikes
+  if (strikes >= totalStrikes)
   {
-    for(int i = 0; i < totalStrikes; i++)
+    for (int i = 0; i < totalStrikes; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(0,0,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW + 7, off);
     }
   }
   else
   {
-    for(int i = 0; i < strikes; i++)
+    for (int i = 0; i < strikes; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+7, matrix.Color333(7,7,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW + 7, yellow);
     }
   }
 
-  //Strikes
-  if(outs >= totalOuts)
+  // Strikes
+  if (outs >= totalOuts)
   {
-    for(int i = 0; i < outs; i++)
+    for (int i = 0; i < outs; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(0,0,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW + 14, off);
     }
   }
   else
   {
-    for(int i = 0; i < outs; i++)
+    for (int i = 0; i < outs; i++)
     {
-      matrix.drawPixel(RECORD_START_COL+(4*i), RECORD_START_ROW+14, matrix.Color333(7,7,0));
+      matrix->drawPixel(RECORD_START_COL + (4 * i), RECORD_START_ROW + 14, yellow);
     }
   }
 }
 
-void BaseballNR::wipeBS(RGBmatrixPanel matrix)
+void BaseballNR::wipeBS()
 {
   balls = totalBalls;
   strikes = totalStrikes;
-  updateDisplayBSO(matrix);
+  updateDisplayBSO();
   balls = 0;
   strikes = 0;
 }
 
-void BaseballNR::drawInning(RGBmatrixPanel matrix)
+void BaseballNR::drawInning()
 {
-  if(top)
+  if (top)
   {
-    matrix.drawPixel(2, 2, matrix.Color333(7,7,0));
-    matrix.drawPixel(1, 3, matrix.Color333(7,7,0));
-    matrix.drawPixel(3, 3, matrix.Color333(7,7,0));
-
-    matrix.drawPixel(2, 6, matrix.Color333(0,0,0));
-    matrix.drawPixel(1, 5, matrix.Color333(0,0,0));
-    matrix.drawPixel(3, 5, matrix.Color333(0,0,0));
+    drawInningArrow(1, 3, true, false);
+    drawInningArrow(1, 5, false, true);
   }
   else
   {
-    matrix.drawPixel(2, 6, matrix.Color333(7,7,0));
-    matrix.drawPixel(1, 5, matrix.Color333(7,7,0));
-    matrix.drawPixel(3, 5, matrix.Color333(7,7,0));
-
-    matrix.drawPixel(2, 2, matrix.Color333(0,0,0));
-    matrix.drawPixel(1, 3, matrix.Color333(0,0,0));
-    matrix.drawPixel(3, 3, matrix.Color333(0,0,0));
+    drawInningArrow(1, 3, false, false);
+    drawInningArrow(1, 5, true, true);
   }
 
-  matrix.setCursor(5,1);
-  matrix.setTextColor(matrix.Color333(0, 0, 0));
-  matrix.print(String(inning-1));
+  matrix->setCursor(5, 1);
+  matrix->setTextColor(off);
+  matrix->print(String(inning - 1));
 
-  matrix.setCursor(5,1);
-  matrix.setTextColor(matrix.Color333(7, 7, 7));
-  matrix.print(String(inning));
+  matrix->setCursor(5, 1);
+  matrix->setTextColor(white);
+  matrix->print(String(inning));
+}
+
+void BaseballNR::drawInningArrow(int startCol, int startRow, boolean turnOn, boolean invert)
+{
+  uint16_t color = turnOn ? yellow : off;
+
+  if (!invert)
+  {
+    matrix->drawPixel(startCol, startRow, color);
+    matrix->drawPixel(startCol + 1, startRow - 1, color);
+    matrix->drawPixel(startCol + 2, startRow, color);
+  }
+  else
+  {
+    matrix->drawPixel(startCol, startRow, color);
+    matrix->drawPixel(startCol + 1, startRow + 1, color);
+    matrix->drawPixel(startCol + 2, startRow, color);
+  }
 }
