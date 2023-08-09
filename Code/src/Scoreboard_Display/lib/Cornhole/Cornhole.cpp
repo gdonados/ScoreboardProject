@@ -1,27 +1,25 @@
 #include "Cornhole.h"
 
-Cornhole::Cornhole(RGBmatrixPanel *matrix, int brightnessScalar)
-    : CustomFrame(matrix, brightnessScalar)
+Cornhole::Cornhole(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
+    : CustomFrame(matrix, redScoreCol, scoreRow, distance, leftScoreTensOffset, size, brightnessScalar)
 {
-  redScore = 0;
-  blueScore = 0;
-  redScoreCol = 000; // CHANGE
-  blueScoreCol = 000;
-  scoreRow = 000;
-  leftScoreTensOffset = 000;
+  redRoundScore = 0;
+  blueRoundScore = 0;
 }
 
 void Cornhole::displayFrame()
 {
   CustomFrame::displayFrame(CornholeFile);
-  drawSmallNumber(redScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, red);
-  drawSmallNumber(blueScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, blue);
+  drawSmallNumber(redRoundScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, red);
+  drawSmallNumber(blueRoundScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, blue);
+
+  initScoreMain();
 }
 
 void Cornhole::drawSmallNumber(int value, int col, int row, uint16_t color)
 {
   // If there is an invalid value, print square
-  if (value < 0 || value > 12)
+  if (value < MIN_ROUND_SCORE || value > MAX_ROUND_SCORE)
   {
     for (int i = 0; i < 5; i++)
     {
@@ -57,42 +55,89 @@ void Cornhole::drawSmallNumber(int value, int col, int row, uint16_t color)
   }
 }
 
-void Cornhole::increaseRoundScore(boolean redTeam)
+void Cornhole::increaseRoundScore(Team team)
 {
-  uint16_t colorOff = white;
-  uint16_t color;
-  redTeam ? color = red : color = blue;
+  uint16_t color = team == REDTEAM ? red : blue;
+  uint8_t &score = team == REDTEAM ? redRoundScore : blueRoundScore;
+  byte col = team == REDTEAM ? RED_FIRSTNUM_COL : BLUE_FIRSTNUM_COL;
 
-  if (redTeam && redScore < 12)
+  if (score < 12)
   {
-    drawSmallNumber(redScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, colorOff);
-    redScore++;
-    drawSmallNumber(redScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, color);
-  }
-  else if (!redTeam && blueScore < 12)
-  {
-    drawSmallNumber(blueScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, colorOff);
-    blueScore++;
-    drawSmallNumber(blueScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, color);
+    drawSmallNumber(score, col, SMALL_NUM_ROW, off);
+    score++;
+    drawSmallNumber(score, col, SMALL_NUM_ROW, color);
   }
 }
 
-void Cornhole::decreaseRoundScore(boolean redTeam)
+void Cornhole::decreaseRoundScore(Team team)
 {
-  uint16_t colorOff = white;
-  uint16_t color;
-  redTeam ? color = red : color = blue;
+  uint16_t color = team == REDTEAM ? red : blue;
+  uint8_t &score = team == REDTEAM ? redRoundScore : blueRoundScore;
+  byte col = team == REDTEAM ? RED_FIRSTNUM_COL : BLUE_FIRSTNUM_COL;
 
-  if (redTeam && redScore >= 0)
+  if (score > 0)
   {
-    drawSmallNumber(redScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, colorOff);
-    redScore--;
-    drawSmallNumber(redScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, color);
+    drawSmallNumber(score, col, SMALL_NUM_ROW, off);
+    score--;
+    drawSmallNumber(score, col, SMALL_NUM_ROW, color);
   }
-  else if (!redTeam && blueScore >= 0)
-  {
-    drawSmallNumber(blueScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, colorOff);
-    blueScore--;
-    drawSmallNumber(blueScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, color);
-  }
+}
+
+void Cornhole::bust(Team team)
+{
+}
+
+void Cornhole::confirmRoundScore()
+{
+  oldRedScore = redScore;
+  oldBlueScore = blueScore;
+
+  redScore += redRoundScore;
+  blueScore += blueRoundScore;
+
+  drawSmallNumber(redRoundScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, off);
+  drawSmallNumber(blueRoundScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, off);
+
+  redRoundScore = 0;
+  blueRoundScore = 0;
+
+  drawSmallNumber(redRoundScore, RED_FIRSTNUM_COL, SMALL_NUM_ROW, red);
+  drawSmallNumber(blueRoundScore, BLUE_FIRSTNUM_COL, SMALL_NUM_ROW, blue);
+
+  updateMainScore();
+}
+
+// Different due to collision with progress bar
+void Cornhole::updateMainScore()
+{
+  // Red
+  oldRedScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
+  matrix->setTextColor(off);
+  matrix->print(String(oldRedScore));
+  redScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
+  matrix->setTextColor(red);
+  matrix->print(String(redScore));
+
+  // Blue
+  oldBlueScore >= 10 ? matrix->setCursor(blueScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(blueScoreCol, scoreRow);
+  matrix->setTextColor(off);
+  matrix->print(String(oldBlueScore));
+  blueScore >= 10 ? matrix->setCursor(blueScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(blueScoreCol, scoreRow);
+  matrix->setTextColor(blue);
+  matrix->print(String(blueScore));
+
+  if (redScore > MAX_ROUND_SCORE)
+    bust(REDTEAM);
+
+  if (blueScore > MAX_ROUND_SCORE)
+    bust(BLUETEAM);
+}
+
+void Cornhole::updateProgressBar(Team team)
+{
+}
+
+void Cornhole::toggleBust()
+{
+  doBust = !doBust;
 }

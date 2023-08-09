@@ -1,7 +1,7 @@
 #ifndef BASEBALLNR_H
 #define BASEBALLNR_H
 
-#include "CustomFrame.h"
+#include <../CustomFrame/CustomFrame.h>
 
 class BaseballNR : public CustomFrame
 {
@@ -31,9 +31,16 @@ private:
 
   static const int BALL_START_COL = 30;
   static const int BALL_START_ROW = 12;
+  static const int STRIKE_START_ROW = 19;
+  static const int OUT_START_ROW = 26;
   static const int IND_BOX_SIZE = 3;
   static const int RECORD_START_COL = 31;
   static const int RECORD_START_ROW = 13;
+
+  /**
+   * @brief Increases baseball game score
+   */
+  void increaseBBallScore();
 
   /*!
    * @brief Draws a "base" sprite, at one of the predefined locations
@@ -43,6 +50,14 @@ private:
    * @param turnOn    True for filling base, false for clearing
    */
   void drawBaseSprite(int startCol, int startRow, boolean turnOn);
+
+  /**
+   * @brief Draws set of nodes to indicate status
+   *
+   *  @param  numNodes  number of nodes to generate
+   *  @param  row  row to start drawing
+   */
+  void drawBSONodes(int numNodes, int row);
 
   /*!
    * @brief Manages base sprite drawing based on game status
@@ -84,19 +99,12 @@ private:
   void drawInningArrow(int startCol, int startRow, boolean turnOn, boolean invert);
 
 public:
-  BaseballNR(RGBmatrixPanel *matrix, int brightnessScalar);
+  BaseballNR(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar);
 
   /*!
    * @brief Generates all baseball scorebug information
    */
   void displayFrame();
-
-  /*!
-   * @brief Increases score for either red or blue
-   *        MAY BE TEMP, DEPENDS HOW I WANT TO UPDATE SCORE
-   * @param team      False for red, true for blue
-   */
-  void increaseScore();
 
   /*!
    * @brief Advances base runners up 1 base

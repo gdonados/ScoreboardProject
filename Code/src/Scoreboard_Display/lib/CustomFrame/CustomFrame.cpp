@@ -1,15 +1,23 @@
 #include "CustomFrame.h"
 
 // Constructor
-CustomFrame::CustomFrame(RGBmatrixPanel *matrix, int brightnessScalar)
+CustomFrame::CustomFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
 {
   this->matrix = matrix;
+
   this->brightnessScalar = brightnessScalar;
   red = this->matrix->Color888(255 / brightnessScalar, 0, 0);
   blue = this->matrix->Color888(0, 128 / brightnessScalar, 224 / brightnessScalar);
   yellow = this->matrix->Color888(255 / brightnessScalar, 255 / brightnessScalar, 0);
   white = this->matrix->Color888(255 / brightnessScalar, 255 / brightnessScalar, 255 / brightnessScalar);
   off = 0;
+
+  this->distance = distance;
+  this->redScoreCol = redScoreCol;
+  blueScoreCol = redScoreCol + distance;
+  this->scoreRow = scoreRow;
+  this->size = size;
+  this->leftScoreTensOffset = leftScoreTensOffset;
 }
 
 // Reads from attached SD card location and RGB data of all pixels
@@ -48,7 +56,40 @@ void CustomFrame::displayFrame(char *fileName)
   }
 }
 
-// void CustomFrame::adjustBrightness(uint8_t scale)
-// {
-//   brightnessScale = scale;
-// }
+void CustomFrame::initScoreMain()
+{
+  redScore = 0;
+  blueScore = 0;
+
+  // Red
+  matrix->setCursor(redScoreCol, scoreRow);
+  matrix->setTextSize(size);
+  matrix->setTextColor(red);
+  matrix->print(String(redScore));
+
+  // Blue
+  matrix->setCursor(blueScoreCol, scoreRow);
+  matrix->setTextSize(size);
+  matrix->setTextColor(blue);
+  matrix->print(String(blueScore));
+}
+
+void CustomFrame::increaseScore(Team team)
+{
+  uint16_t color = team == REDTEAM ? red : blue;
+  uint8_t &score = team == REDTEAM ? redScore : blueScore;
+  uint8_t col = team == REDTEAM ? redScoreCol : blueScoreCol;
+
+  // Erase old score
+  (score >= 10 && team == REDTEAM) ? matrix->setCursor(col - leftScoreTensOffset, scoreRow) : matrix->setCursor(col, scoreRow);
+
+  matrix->setTextColor(off);
+  matrix->print(String(score));
+  score++;
+
+  // Not future-proofed for scores > 99
+  (score >= 10 && team == REDTEAM) ? matrix->setCursor(col - leftScoreTensOffset, scoreRow) : matrix->setCursor(col, scoreRow);
+
+  matrix->setTextColor(color);
+  matrix->print(String(score));
+}

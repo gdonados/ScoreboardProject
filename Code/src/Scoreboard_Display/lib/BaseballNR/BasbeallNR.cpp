@@ -1,13 +1,8 @@
 #include "BaseballNR.h"
 
-BaseballNR::BaseballNR(RGBmatrixPanel *matrix, int brightnessScalar)
-    : CustomFrame(matrix, brightnessScalar)
+BaseballNR::BaseballNR(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
+    : CustomFrame(matrix, redScoreCol, scoreRow, distance, leftScoreTensOffset, size, brightnessScalar)
 {
-  leftScoreTensOffset = 6;
-  redScore = 0;
-  blueScore = 0;
-  redScoreCol = 20;
-  blueScoreCol = 39;
   inning = 1;
   top = true;
 }
@@ -27,33 +22,11 @@ void BaseballNR::displayFrame()
   strikes = 0;
   outs = 0;
 
-  // Red set
-  matrix->setCursor(redScoreCol, scoreRow);
-  matrix->setTextColor(red);
-  matrix->print(String(0));
+  initScoreMain();
 
-  // Blue set
-  matrix->setCursor(blueScoreCol, scoreRow);
-  matrix->setTextColor(blue);
-  matrix->print(String(0));
-
-  // Balls
-  for (int i = 0; i < totalBalls - 1; i++)
-  {
-    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
-  }
-
-  // Strikes
-  for (int i = 0; i < totalStrikes - 1; i++)
-  {
-    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW + 7, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
-  }
-
-  // Outs
-  for (int i = 0; i < totalStrikes - 1; i++)
-  {
-    matrix->drawRect(BALL_START_COL + (i * 4), BALL_START_ROW + 14, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
-  }
+  drawBSONodes(totalBalls, BALL_START_ROW);
+  drawBSONodes(totalStrikes, STRIKE_START_ROW);
+  drawBSONodes(totalOuts, OUT_START_ROW);
 
   // Innings
   drawInning();
@@ -61,37 +34,12 @@ void BaseballNR::displayFrame()
 
 // Increases red or blue score
 // Currently need switch for frame selecting, due to scores being in different spots
-void BaseballNR::increaseScore()
+void BaseballNR::increaseBBallScore()
 {
   uint16_t color;
   top ? color = red : color = blue;
 
-  if (top)
-  {
-    // Erase old score
-    redScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
-
-    matrix->setTextColor(off);
-    matrix->print(String(redScore));
-    redScore++;
-
-    // Not future-proofed for scores > 99
-    redScore >= 10 ? matrix->setCursor(redScoreCol - leftScoreTensOffset, scoreRow) : matrix->setCursor(redScoreCol, scoreRow);
-
-    matrix->setTextColor(color);
-    matrix->print(String(redScore));
-  }
-  else
-  {
-    // Erase old score
-    matrix->setCursor(blueScoreCol, scoreRow);
-    matrix->setTextColor(off);
-    matrix->print(String(blueScore));
-    blueScore++;
-    matrix->setCursor(blueScoreCol, scoreRow);
-    matrix->setTextColor(color);
-    matrix->print(String(blueScore));
-  }
+  CustomFrame::increaseScore(top ? REDTEAM : BLUETEAM);
 }
 
 void BaseballNR::drawBaseSprite(int startCol, int startRow, boolean turnOn)
@@ -117,6 +65,14 @@ void BaseballNR::drawBaseSprite(int startCol, int startRow, boolean turnOn)
       matrix->drawLine(startCol, ++startRow, --endCol, endRow, off);
       matrix->drawLine(--startCol, startRow, endCol, ++endRow, off);
     }
+  }
+}
+
+void BaseballNR::drawBSONodes(int numNodes, int row)
+{
+  for (int i = 0; i < numNodes - 1; i++)
+  {
+    matrix->drawRect(BALL_START_COL + (i * 4), row, IND_BOX_SIZE, IND_BOX_SIZE, yellow);
   }
 }
 
@@ -218,7 +174,7 @@ void BaseballNR::checkHome()
 
   while (addedScore > 0)
   {
-    increaseScore(); // NEED TO DECIDE EITHER MANUAL SWITCH OR AUTO
+    increaseBBallScore();
     addedScore--;
   }
 
