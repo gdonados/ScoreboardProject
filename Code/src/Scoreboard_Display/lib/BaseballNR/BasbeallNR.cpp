@@ -1,7 +1,7 @@
 #include "BaseballNR.h"
 
 BaseballNR::BaseballNR(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
-    : CustomFrame(matrix, redScoreCol, scoreRow, distance, leftScoreTensOffset, size, brightnessScalar)
+    : BaseFrame(matrix, redScoreCol, scoreRow, distance, leftScoreTensOffset, size, brightnessScalar)
 {
   inning = 1;
   top = true;
@@ -10,7 +10,7 @@ BaseballNR::BaseballNR(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, in
 // Bundeled commands for generated baseball no run scorebug
 void BaseballNR::displayFrame()
 {
-  CustomFrame::displayFrame(BaseballNRFile);
+  BaseFrame::displayFrame(BaseballNRFile);
 
   // defaults
   baseEncoding = 0;
@@ -39,7 +39,7 @@ void BaseballNR::increaseBBallScore()
   uint16_t color;
   top ? color = red : color = blue;
 
-  CustomFrame::increaseScore(top ? REDTEAM : BLUETEAM);
+  BaseFrame::increaseScore(top ? REDTEAM : BLUETEAM);
 }
 
 void BaseballNR::drawBaseSprite(int startCol, int startRow, boolean turnOn)

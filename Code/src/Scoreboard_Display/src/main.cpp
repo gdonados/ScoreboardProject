@@ -1,9 +1,9 @@
 #include <RGBmatrixPanel.h>
-#include <../utils/Pins.h>
-#include <../lib/BaseballNR/BaseballNR.h>
-#include <../lib/Cornhole/Cornhole.h>
-#include <../lib/CursorSet/CursorSet.h>
-#include <../utils/enumerations.h>
+#include "../utils/Pins.h"
+#include "../lib/BaseballNR/BaseballNR.h"
+#include "../lib/Cornhole/Cornhole.h"
+#include "../lib/CursorSet/CursorSet.h"
+#include "../utils/enumerations.h"
 
 RGBmatrixPanel matrix = RGBmatrixPanel(A, B, C, D, CLK, LAT, OE, false, 64);
 
@@ -47,15 +47,31 @@ bballScore_t bballScore = {20, 1, 19, 6, 1, 3};
 BaseballNR bballNR = BaseballNR(&matrix, bballScore.redCol, bballScore.scoreRow, bballScore.distanceBetween,
                                 bballScore.tensOffset, bballScore.scoreSize, bballScore.brightness);
 
-choleScore_t choleScore = {13, 4, 30, 7, 2, 3};
+choleScore_t choleScore = {14, 4, 28, 7, 2, 3};
 Cornhole chole = Cornhole(&matrix, choleScore.redCol, choleScore.scoreRow, choleScore.distanceBetween,
                           choleScore.tensOffset, choleScore.scoreSize, choleScore.brightness);
 
-/**
- * ###############MOVE CORNHOLE BAR OVER 1 WHEN YOU GET SD READER#################
- */
+void actionHitSingle()
+{
+  bballNR.hitSingle();
+}
 
-CursorSet bballNRSet = CursorSet(&matrix, 3, 20, 6, 2);
+void actionHitDouble()
+{
+  bballNR.hitDouble();
+}
+
+void actionRecordStrike()
+{
+  bballNR.recordStrike();
+}
+
+void actionRecordBall()
+{
+  bballNR.recordBall();
+}
+
+CursorSet bballNRSet = CursorSet(&matrix, 3, 20, 6, 2, &actionHitSingle);
 
 // Temp serial vars
 char receivedChar = ' ';
@@ -79,9 +95,9 @@ void setup()
   chole.displayFrame();
 
   // bballNRSet.cursorSetSelect();
-  bballNRSet.addCursorLocation(13, 20, 6);
-  bballNRSet.addCursorLocation(4, 30, 5);
-  bballNRSet.addCursorLocation(14, 30, 5);
+  bballNRSet.addCursorLocation(13, 20, 6, &actionHitDouble);
+  bballNRSet.addCursorLocation(4, 30, 5, &actionRecordStrike);
+  bballNRSet.addCursorLocation(14, 30, 5, &actionRecordBall);
 
   Serial.begin(9600);
 }
@@ -94,31 +110,14 @@ void loop()
   {
     // bballNRSet.cursorPrev();
     chole.decreaseRoundScore(BLUETEAM);
+    chole.decreaseRoundScore(REDTEAM);
   }
   else if (receivedChar == 'w')
   {
     switch (currentFrame)
     {
     case BaseballNRMain:
-      cursorLocation = bballNRSet.getCursorIndex();
-
-      if (cursorLocation == 0)
-      {
-        bballNR.hitSingle();
-      }
-      else if (cursorLocation == 1)
-      {
-        bballNR.hitDouble();
-      }
-      else if (cursorLocation == 2)
-      {
-        bballNR.recordStrike();
-      }
-      else
-      {
-        bballNR.recordBall();
-      }
-
+      bballNRSet.cursorConfirm();
       break;
 
     case CornholeMain:
@@ -130,5 +129,6 @@ void loop()
   {
     // bballNRSet.cursorNext();
     chole.increaseRoundScore(BLUETEAM);
+    chole.increaseRoundScore(REDTEAM);
   }
 }

@@ -1,7 +1,7 @@
-#include "CustomFrame.h"
+#include "BaseFrame.h"
 
 // Constructor
-CustomFrame::CustomFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
+BaseFrame::BaseFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar)
 {
   this->matrix = matrix;
 
@@ -23,7 +23,7 @@ CustomFrame::CustomFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, 
 // Reads from attached SD card location and RGB data of all pixels
 // To draw a custom frame
 // Always wipes screen
-void CustomFrame::displayFrame(char *fileName)
+void BaseFrame::displayFrame(char *fileName)
 {
   matrix->fillScreen(0); // Clear previous frame
 
@@ -56,7 +56,7 @@ void CustomFrame::displayFrame(char *fileName)
   }
 }
 
-void CustomFrame::initScoreMain()
+void BaseFrame::initScoreMain()
 {
   redScore = 0;
   blueScore = 0;
@@ -74,7 +74,7 @@ void CustomFrame::initScoreMain()
   matrix->print(String(blueScore));
 }
 
-void CustomFrame::increaseScore(Team team)
+void BaseFrame::increaseScore(Team team)
 {
   uint16_t color = team == REDTEAM ? red : blue;
   uint8_t &score = team == REDTEAM ? redScore : blueScore;

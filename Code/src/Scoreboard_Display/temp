@@ -1,0 +1,5 @@
+CursorSet Plan:
+  - Want to be able to register in functions as callbacks to an inner list
+  - CursorSet should be in charge of running the functions that are registered
+  - main should only be calling cursorNext, cursorPrev, and cursorConfirm
+  -

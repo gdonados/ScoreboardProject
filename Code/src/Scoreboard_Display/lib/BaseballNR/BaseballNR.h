@@ -1,9 +1,9 @@
 #ifndef BASEBALLNR_H
 #define BASEBALLNR_H
 
-#include <../CustomFrame/CustomFrame.h>
+#include "../BaseFrame/BaseFrame.h"
 
-class BaseballNR : public CustomFrame
+class BaseballNR : public BaseFrame
 {
 private:
   byte totalBalls;
@@ -71,6 +71,16 @@ private:
   void recordOut();
 
   /*!
+   * @brief Advances bastter 1 base, and base runners depending on location
+   */
+  void walk();
+
+  /*!
+   * @brief Checks base encoding to check if baserunners got home
+   */
+  void checkHome();
+
+  /*!
    * @brief Updates new pixels to indicate balls/strikes/out
    *
    */
@@ -115,16 +125,6 @@ public:
    * @brief Advances base runners up 2 bases
    */
   void hitDouble();
-
-  /*!
-   * @brief Advances bastter 1 base, and base runners depending on location
-   */
-  void walk();
-
-  /*!
-   * @brief Checks base encoding to check if baserunners got home
-   */
-  void checkHome();
 
   /*!
    * @brief Set of functions to record balls, strikes, and outs

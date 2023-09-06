@@ -1,7 +1,10 @@
-#include <../CustomFrame/CustomFrame.h>
+#ifndef CORNHOLE_H
+#define CORNHOLE_H
+
+#include "../BaseFrame/BaseFrame.h"
 #include <SmallNumbers.h>
 
-class Cornhole : public CustomFrame
+class Cornhole : public BaseFrame
 {
 private:
   const byte SMALL_NUM_ROW = 24;
@@ -11,13 +14,26 @@ private:
 
   const uint8_t MAX_ROUND_SCORE = 12;
   const uint8_t MIN_ROUND_SCORE = 0;
+  const uint8_t BUST_RESET_VALUE = 11;
+  const uint8_t BUST_ROW = 9;
 
-  const uint8_t MAX_SCORE = 21;
+  const uint8_t BAR_HEIGHT = 28; // Based on current frame
+
+  uint8_t winningScore;
+  float barStep;
+
+  // Based on current cornhole frame background
+  const byte BAR_BASE_ROW = 29;
+  const byte RED_BAR_BASE_COL = 2;
+  const byte BLUE_BAR_BASE_COL = 60;
 
   uint8_t redRoundScore;
   uint8_t blueRoundScore;
   uint8_t oldRedScore;
   uint8_t oldBlueScore;
+
+  float redComboScore;
+  float blueComboScore;
 
   boolean doBust = true;
 
@@ -42,7 +58,7 @@ private:
   /**
    * @brief Increases/decreases progress bar depending on main score + round score
    */
-  void updateProgressBar(Team team);
+  void updateProgressBar();
 
   /**
    * @brief Update frame for a bust
@@ -50,6 +66,10 @@ private:
    * @param team   Enum type for team to change
    */
   void bust(Team team);
+
+  /**
+   * @brief Display win screen for the specified team ### GEN NEW FRAME FOR THIS ###
+   */
 
 public:
   Cornhole(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar);
@@ -84,3 +104,5 @@ public:
    */
   void toggleBust();
 };
+
+#endif

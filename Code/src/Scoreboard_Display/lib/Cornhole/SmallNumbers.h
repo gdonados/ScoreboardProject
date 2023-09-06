@@ -1,3 +1,6 @@
+#ifndef SMALLNUMBERS_H
+#define SMALLNUMBERS_H
+
 #include <Arduino.h>
 
 const static byte smallNumbers[10][5][5] =
@@ -81,3 +84,5 @@ const static byte smallNumbers[10][5][5] =
             {0, 1, 1, 1, 1},
             {0, 0, 0, 0, 1},
             {0, 0, 0, 0, 1}}};
+
+#endif

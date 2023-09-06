@@ -1,8 +1,8 @@
-#ifndef CUSTOM_FRAME_H
-#define CUSTOM_FRAME_H
+#ifndef BASE_FRAME_H
+#define BASE_FRAME_H
 
-#include <../../utils/Pins.h>
-#include <../../utils/enumerations.h>
+#include "../../utils/Pins.h"
+#include "../../utils/enumerations.h"
 #include <RGBmatrixPanel.h>
 #include <SPI.h>
 #include <SD.h>
@@ -14,7 +14,7 @@
  * Class to encapsulate all custom matrix generation
  * commands for this project
  */
-class CustomFrame
+class BaseFrame
 {
 protected:
   uint8_t redScore;
@@ -68,7 +68,7 @@ public:
    *
    * @param matrix Reference to RGBmatrixPanel object
    */
-  CustomFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar);
+  BaseFrame(RGBmatrixPanel *matrix, int redScoreCol, int scoreRow, int distance, int leftScoreTensOffset, int size, int brightnessScalar);
 };
 
 #endif
